@@ -1,83 +1,11 @@
 fileFormatVersion: 2
-guid: 61895aefa3684d3448b565d3bfb3da38
+guid: 86f114ef6f3ff694daa973f829808e7d
 ModelImporter:
   serializedVersion: 21100
-  internalIDToNameTable:
-  - first:
-      1: 100000
-    second: //RootNode
-  - first:
-      1: 100002
-    second: EA04_Wehicule_Raft_01a_LOD0
-  - first:
-      1: 100004
-    second: EA04_Wehicule_Raft_01a_LOD1
-  - first:
-      1: 100006
-    second: EA04_Wehicule_Raft_01a_LOD2
-  - first:
-      4: 400000
-    second: //RootNode
-  - first:
-      4: 400002
-    second: EA04_Wehicule_Raft_01a_LOD0
-  - first:
-      4: 400004
-    second: EA04_Wehicule_Raft_01a_LOD1
-  - first:
-      4: 400006
-    second: EA04_Wehicule_Raft_01a_LOD2
-  - first:
-      21: 2100000
-    second: Material_wood
-  - first:
-      21: 2100002
-    second: Material_syntetic
-  - first:
-      21: 2100004
-    second: Material_syntetic_alpha
-  - first:
-      21: 2100006
-    second: Material_standard
-  - first:
-      21: 2100008
-    second: Material_syntetic_decal
-  - first:
-      23: 2300000
-    second: EA04_Wehicule_Raft_01a_LOD0
-  - first:
-      23: 2300002
-    second: EA04_Wehicule_Raft_01a_LOD1
-  - first:
-      23: 2300004
-    second: EA04_Wehicule_Raft_01a_LOD2
-  - first:
-      33: 3300000
-    second: EA04_Wehicule_Raft_01a_LOD0
-  - first:
-      33: 3300002
-    second: EA04_Wehicule_Raft_01a_LOD1
-  - first:
-      33: 3300004
-    second: EA04_Wehicule_Raft_01a_LOD2
-  - first:
-      43: 4300000
-    second: EA04_Wehicule_Raft_01a_LOD2
-  - first:
-      43: 4300002
-    second: EA04_Wehicule_Raft_01a_LOD1
-  - first:
-      43: 4300004
-    second: EA04_Wehicule_Raft_01a_LOD0
-  - first:
-      205: 20500000
-    second: //RootNode
-  - first:
-      41386430: 2186277476908879412
-    second: ImportLogs
+  internalIDToNameTable: []
   externalObjects: {}
   materials:
-    materialImportMode: 1
+    materialImportMode: 2
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -103,24 +31,21 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 1
+    isReadable: 0
   meshes:
-    lODScreenPercentages:
-    - 0.25
-    - 0.125
-    - 0.01
+    lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 1
+    addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
-    fileIdsGeneration: 1
+    fileIdsGeneration: 2
     swapUVChannels: 0
-    generateSecondaryUV: 1
+    generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
@@ -134,7 +59,7 @@ ModelImporter:
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
-    secondaryUVMarginMethod: 0
+    secondaryUVMarginMethod: 1
     secondaryUVMinLightmapResolution: 40
     secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
@@ -167,10 +92,10 @@ ModelImporter:
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   avatarSetup: 0
-  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
