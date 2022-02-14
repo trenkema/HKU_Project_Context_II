@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PilarManager : MonoBehaviour
 {
+    [SerializeField] Quest quest;
+
     [SerializeField] int pilarsRequired;
 
     [SerializeField] GameObject ecoDuct;
@@ -26,9 +28,11 @@ public class PilarManager : MonoBehaviour
     {
         pilarsBuilt++;
 
+        EventSystemNew<int, int>.RaiseEvent(Event_Type.QUEST_ADD_AMOUNT, quest.questID, 1);
+
         if (pilarsBuilt >= pilarsRequired)
         {
-            ecoDuct.SetActive(true);
+            EventSystemNew<int>.RaiseEvent(Event_Type.QUEST_DONE, quest.questID);
         }
     }
 }

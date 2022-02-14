@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class NoPlayerInteraction : MonoBehaviour
 {
+    bool isDisabled = false;
+
     Rigidbody rb;
 
     private void Awake()
@@ -13,17 +15,28 @@ public class NoPlayerInteraction : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (!isDisabled)
         {
-            rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationY;
+            if (other.CompareTag("Player"))
+            {
+                rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationY;
+            }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (!isDisabled)
         {
-            rb.constraints = RigidbodyConstraints.None;
+            if (other.CompareTag("Player"))
+            {
+                rb.constraints = RigidbodyConstraints.None;
+            }
         }
+    }
+
+    public void DisableScript(bool _disable)
+    {
+        isDisabled = _disable;
     }
 }

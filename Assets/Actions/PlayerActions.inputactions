@@ -30,9 +30,33 @@
                     "interactions": ""
                 },
                 {
-                    "name": "ToggleBoatControl",
+                    "name": "Sprinting",
+                    "type": "Button",
+                    "id": "d2bed29d-5e49-4479-ac79-71904b27ba50",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Control",
                     "type": "Button",
                     "id": "b7c8f9c5-cb88-4cdc-926f-fe702f32ccb2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Pickup",
+                    "type": "Button",
+                    "id": "2e2a69bf-a339-47b7-81ad-545a455f3f0a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Enter",
+                    "type": "Button",
+                    "id": "3da3f433-1f02-4bb2-b55b-01bbc07c542d",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -118,12 +142,45 @@
                 },
                 {
                     "name": "",
-                    "id": "c7d4eac2-68d7-44c5-a12b-0e5b857be17e",
+                    "id": "bc439821-e01f-4aa4-b543-8ab0266b82f1",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Sprinting",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0260c56c-9775-4b49-8c62-ae35a5b6de26",
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "ToggleBoatControl",
+                    "action": "Pickup",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c7d4eac2-68d7-44c5-a12b-0e5b857be17e",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Control",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4a0b5b93-b8d2-4073-a787-1e9a251f4728",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Enter",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -150,7 +207,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "ToggleBoatControl",
+                    "name": "EnterDeck",
                     "type": "Button",
                     "id": "8e59e11f-8988-4c73-9ce4-25e4d42af2c9",
                     "expectedControlType": "Button",
@@ -240,7 +297,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
-                    "action": "ToggleBoatControl",
+                    "action": "EnterDeck",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -279,6 +336,172 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "Hit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "DroneControls",
+            "id": "7e10952c-e0a2-4724-8efa-5c68a0b8b627",
+            "actions": [
+                {
+                    "name": "ExitDrone",
+                    "type": "Button",
+                    "id": "8bfa9879-d260-4893-bd44-80f2adba9235",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Movement",
+                    "type": "Value",
+                    "id": "cb9160ad-08ae-4243-ac5d-8b3dade2b674",
+                    "expectedControlType": "Vector2",
+                    "processors": "NormalizeVector2",
+                    "interactions": ""
+                },
+                {
+                    "name": "Steering",
+                    "type": "Value",
+                    "id": "838793e6-18e4-4630-b4e4-aa9a20ee8f48",
+                    "expectedControlType": "Vector2",
+                    "processors": "NormalizeVector2",
+                    "interactions": ""
+                },
+                {
+                    "name": "FlyUp",
+                    "type": "Button",
+                    "id": "65843724-99dd-42bd-a16b-a8fbd3d2c3e0",
+                    "expectedControlType": "Button",
+                    "processors": "NormalizeVector2",
+                    "interactions": ""
+                },
+                {
+                    "name": "FlyDown",
+                    "type": "Button",
+                    "id": "686e6b3b-a657-4fdf-93f4-ca5345a43835",
+                    "expectedControlType": "Button",
+                    "processors": "NormalizeVector2",
+                    "interactions": ""
+                },
+                {
+                    "name": "SprinkleSeeds",
+                    "type": "Button",
+                    "id": "1c3c5cc6-ec3c-4738-9e98-a1749338ec3a",
+                    "expectedControlType": "Button",
+                    "processors": "NormalizeVector2",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "c8a367f8-c40b-4232-bca5-1f53ed5ea9e1",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "ExitDrone",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "AD Keys",
+                    "id": "422b3857-1941-4bcf-bb1e-c42ae4181838",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Steering",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "left",
+                    "id": "084ea39d-94b8-4c1f-83f0-4fc45f0062a9",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Steering",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "0dbf5880-7222-4518-828e-05b3c269eb0a",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Steering",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "WS Keys",
+                    "id": "dd29f9a1-bc9e-4eea-98e2-3fb269bcd065",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "902d5048-c8bb-4667-afdf-85b0033b1fe3",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "b8549164-ca68-41dd-aa57-8b83038f79cf",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "fb1e5df3-e210-480b-9233-f39a831128c5",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "FlyUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "16927d80-f5f9-4e45-b29c-464849c47639",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "FlyDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "161507db-9627-4183-bf87-7da3396426a5",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "SprinkleSeeds",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

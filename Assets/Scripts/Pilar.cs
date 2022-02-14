@@ -6,13 +6,28 @@ public class Pilar : MonoBehaviour
 {
     [SerializeField] GameObject buildPilar;
 
-    [SerializeField] int hitsRequired = 3;
+    [SerializeField] float hitsRequired = 3;
 
-    int amountOfHits = 0;
+    [SerializeField] Gradient buildGradient;
 
-    public void Hit(int _amount)
+    Material material;
+
+    float amountOfHits = 0;
+
+    private void Awake()
+    {
+        material = GetComponent<MeshRenderer>().material;
+
+        ColorFromGradient(0f);
+    }
+
+    public void Hit(float _amount)
     {
         amountOfHits += _amount;
+
+        float gradient =  amountOfHits / hitsRequired;
+
+        ColorFromGradient(gradient);
 
         if (amountOfHits >= hitsRequired)
         {
@@ -22,5 +37,10 @@ public class Pilar : MonoBehaviour
 
             gameObject.SetActive(false);
         }
+    }
+
+    public void ColorFromGradient(float value)  // float between 0-1
+    {
+        material.color = buildGradient.Evaluate(value);
     }
 }

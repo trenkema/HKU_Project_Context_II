@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - RobotArm
+  - EcoDuct
   layers:
   - Default
   - TransparentFX
@@ -13,9 +14,9 @@ TagManager:
   - Water
   - UI
   - NoPlayerCollision
-  - 
-  - 
-  - 
+  - NoBoatCollision
+  - Boat
+  - Drone
   - 
   - 
   - 
