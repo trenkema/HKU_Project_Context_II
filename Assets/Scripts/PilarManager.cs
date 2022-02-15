@@ -28,11 +28,11 @@ public class PilarManager : MonoBehaviour
     {
         pilarsBuilt++;
 
-        EventSystemNew<int, int>.RaiseEvent(Event_Type.QUEST_ADD_AMOUNT, quest.questID, 1);
+        EventSystemNew<Quest, int>.RaiseEvent(Event_Type.QUEST_ADD_AMOUNT, quest, 1);
 
         if (pilarsBuilt >= pilarsRequired)
         {
-            EventSystemNew<int>.RaiseEvent(Event_Type.QUEST_DONE, quest.questID);
+            EventSystemNew<Quest>.RaiseEvent(Event_Type.QUEST_COMPLETED, quest);
         }
     }
 }

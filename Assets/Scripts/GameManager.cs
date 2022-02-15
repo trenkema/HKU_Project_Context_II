@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] Quest temporaryStartQuest;
+
     [SerializeField] GameObject playerCrosshair;
 
     [SerializeField] InteractionManager interactionManager;
@@ -28,6 +30,8 @@ public class GameManager : MonoBehaviour
         playerCrosshair.SetActive(false);
 
         interactionManager.enabled = false;
+
+        EventSystemNew<Quest>.RaiseEvent(Event_Type.ACTIVATE_QUEST, temporaryStartQuest);
     }
 
     public void StartGame()

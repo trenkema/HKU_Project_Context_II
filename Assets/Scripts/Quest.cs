@@ -18,21 +18,25 @@ public class Quest : MonoBehaviour
     public int questCurrentAmount;
     public int questMaxAmount;
 
+    public bool isActive = false;
+
+    public bool isCompleted = false;
+
     private void Awake()
     {
-        EventSystemNew<int, int>.Subscribe(Event_Type.QUEST_ADD_AMOUNT, AddAmount);
+        EventSystemNew<Quest, int>.Subscribe(Event_Type.QUEST_ADD_AMOUNT, AddAmount);
 
         questObjectiveText.text = string.Format("[{0}/{1}] {2}", questCurrentAmount, questMaxAmount, questObjective);
     }
 
     private void OnDisable()
     {
-        EventSystemNew<int, int>.Unsubscribe(Event_Type.QUEST_ADD_AMOUNT, AddAmount);
+        EventSystemNew<Quest, int>.Unsubscribe(Event_Type.QUEST_ADD_AMOUNT, AddAmount);
     }
 
-    private void AddAmount(int _questID, int _questAddAmount)
+    private void AddAmount(Quest _quest, int _questAddAmount)
     {
-        if (questID == _questID)
+        if (this == _quest)
         {
             questCurrentAmount += _questAddAmount;
 
@@ -40,7 +44,7 @@ public class Quest : MonoBehaviour
 
             if (questCurrentAmount >= questMaxAmount)
             {
-                EventSystemNew<int>.RaiseEvent(Event_Type.QUEST_DONE, questID);
+                EventSystemNew<int>.RaiseEvent(Event_Type.QUEST_COMPLETED, questID);
             }
         }
     }

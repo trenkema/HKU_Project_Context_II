@@ -68,12 +68,12 @@ public class DroneController : IInteractable
 
         upForce = 0f;
 
-        EventSystemNew<int>.Subscribe(Event_Type.ENABLE_QUEST, EnableQuest);
+        EventSystemNew<Quest>.Subscribe(Event_Type.ACTIVATE_QUEST, ActivateQuest);
     }
 
     private void OnDisable()
     {
-        EventSystemNew<int>.Unsubscribe(Event_Type.ENABLE_QUEST, EnableQuest);
+        EventSystemNew<Quest>.Unsubscribe(Event_Type.ACTIVATE_QUEST, ActivateQuest);
     }
 
     private void Update()
@@ -108,9 +108,9 @@ public class DroneController : IInteractable
         rb.rotation = Quaternion.Euler(new Vector3(tiltAmountForward, currentYRotation, rb.rotation.z));
     }
 
-    private void EnableQuest(int _questID)
+    private void ActivateQuest(Quest _quest)
     {
-        if (quest.questID == _questID)
+        if (quest == _quest)
         {
             canDropSeeds = true;
         }

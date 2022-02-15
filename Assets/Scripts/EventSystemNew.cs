@@ -6,8 +6,8 @@ public enum Event_Type
 {
     PILAR_BUILD,
     QUEST_ADD_AMOUNT,
-    QUEST_DONE,
-    ENABLE_QUEST
+    QUEST_COMPLETED,
+    ACTIVATE_QUEST
 }
 
 public static class EventSystemNew
