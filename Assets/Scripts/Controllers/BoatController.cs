@@ -19,6 +19,7 @@ public class BoatController : IInteractable
 
     [SerializeField] GameObject controlArmText;
     [SerializeField] GameObject exitArmControlText;
+    [SerializeField] GameObject exitBoatControlText;
 
     [SerializeField] GameObject boatHUD;
 
@@ -47,14 +48,6 @@ public class BoatController : IInteractable
     bool isControlling = false;
 
     float currentVelocity;
-    float accelerateLerpTimeElapsed;
-    float accelerateLerpedValue;
-
-    float slowDownLerpTimeElapsed;
-    float slowDownLerpedValue;
-
-    float breakLerpTimeElapsed;
-    float breakLerpedValue;
 
     bool isMoving = false;
 
@@ -68,6 +61,10 @@ public class BoatController : IInteractable
 
     float latestMovementDirection = 0f;
 
+    float smoothDampVelocity;
+
+    float newZRotation;
+
     private void Awake()
     {
         robotArmMap = playerInput.actions.FindActionMap("RobotArmControls");
@@ -75,8 +72,6 @@ public class BoatController : IInteractable
         rb = GetComponent<Rigidbody>();
 
         rb.centerOfMass = transform.position;
-
-        slowDownLerpTimeElapsed = slowDownTime;
 
         currentVelocity = 0f;
 
@@ -86,91 +81,21 @@ public class BoatController : IInteractable
         boatHUD.SetActive(false);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (isMoving)
         {
-            if ((latestMovementDirection > 0f && rb.velocity.z < -0.5f) || (latestMovementDirection < 0f && rb.velocity.z > 0.5f))
-            {
-                if (breakLerpTimeElapsed < breakTime)
-                {
-                    breakLerpedValue = Mathf.Lerp(currentVelocity, 0f, breakLerpTimeElapsed / breakTime);
-
-                    breakLerpTimeElapsed += Time.deltaTime;
-                }
-                else
-                {
-                    breakLerpTimeElapsed = breakTime;
-
-                    breakLerpedValue = 0f;
-                }
-
-                float direction;
-
-                if (rb.velocity.z > 0f)
-                    direction = 1f;
-                else
-                    direction = -1f;
-
-                Vector3 input = (transform.forward * 1f + transform.right * 0).normalized * (breakLerpedValue * direction);
-
-                currentVelocity = breakLerpedValue;
-
-                forwardVelocity = input;
-            }
-            else
-            {
-                breakLerpTimeElapsed = 0f;
-
-                slowDownLerpTimeElapsed = 0f;
-
-                if (accelerateLerpTimeElapsed < accelerateTime)
-                {
-                    accelerateLerpedValue = Mathf.Lerp(currentVelocity, maxVelocity, accelerateLerpTimeElapsed / accelerateTime);
-
-                    accelerateLerpTimeElapsed += Time.deltaTime;
-                }
-                else
-                {
-                    accelerateLerpTimeElapsed = accelerateTime;
-
-                    accelerateLerpedValue = maxVelocity;
-                }
-
-                Vector3 input = (transform.forward * 1f + transform.right * 0).normalized * (accelerateLerpedValue * latestMovementDirection);
-
-                currentVelocity = accelerateLerpedValue;
-
-                forwardVelocity = input;
-            }
+            currentVelocity = Mathf.SmoothDamp(currentVelocity, maxVelocity * latestMovementDirection, ref smoothDampVelocity, accelerateTime);
         }
         else
         {
-            accelerateLerpTimeElapsed = 0f;
-
-            if (slowDownLerpTimeElapsed < slowDownTime)
-            {
-                slowDownLerpedValue = Mathf.Lerp(currentVelocity, 0f, slowDownLerpTimeElapsed / slowDownTime);
-
-                slowDownLerpTimeElapsed += Time.deltaTime;
-            }
-            else
-            {
-                slowDownLerpTimeElapsed = slowDownTime;
-
-                slowDownLerpedValue = 0f;
-            }
-
-            Vector3 input = (transform.forward * 1f + transform.right * 0).normalized * (slowDownLerpedValue * latestMovementDirection);
-
-            currentVelocity = slowDownLerpedValue;
-
-            forwardVelocity = input;
+            currentVelocity = Mathf.SmoothDamp(currentVelocity, 0f, ref smoothDampVelocity, slowDownTime);
         }
-    }
 
-    private void FixedUpdate()
-    {
+        Vector3 input = (new Vector3(transform.forward.x, 0f, transform.forward.z) * 1f + Vector3.right * 0).normalized * currentVelocity;
+
+        forwardVelocity = input;
+
         MoveBoat();
 
         RotateBoat();
@@ -214,6 +139,8 @@ public class BoatController : IInteractable
                     controlArmText.SetActive(false);
                     exitArmControlText.SetActive(true);
 
+                    exitBoatControlText.SetActive(false);
+
                     cinemachineCamera.LookAt = robotArmLookAt;
                     cinemachineCamera.Follow = robotArmLookAt;
 
@@ -223,6 +150,8 @@ public class BoatController : IInteractable
                 {
                     controlArmText.SetActive(true);
                     exitArmControlText.SetActive(false);
+
+                    exitBoatControlText.SetActive(true);
 
                     cinemachineCamera.LookAt = boatLookAt;
                     cinemachineCamera.Follow = boatLookAt;
@@ -361,6 +290,8 @@ public class BoatController : IInteractable
                     boatCamera.SetActive(true);
 
                     boatHUD.SetActive(true);
+
+                    exitBoatControlText.SetActive(true);
 
                     player.SetActive(false);
                 }

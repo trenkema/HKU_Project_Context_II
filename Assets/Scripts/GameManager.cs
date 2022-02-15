@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] GameObject playerCrosshair;
 
+    [SerializeField] InteractionManager interactionManager;
+
     [SerializeField] GameObject mainMenuHUD;
 
     [SerializeField] Animator mainMenuAnimator;
@@ -24,6 +26,8 @@ public class GameManager : MonoBehaviour
         Cursor.visible = true;
 
         playerCrosshair.SetActive(false);
+
+        interactionManager.enabled = false;
     }
 
     public void StartGame()
@@ -43,6 +47,8 @@ public class GameManager : MonoBehaviour
         playerCrosshair.SetActive(true);
 
         playerInput.SwitchCurrentActionMap("PlayerControls");
+
+        interactionManager.enabled = true;
 
         mainMenuHUD.SetActive(false);
     }

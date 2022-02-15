@@ -10,18 +10,32 @@ public class Seed : MonoBehaviour
 
     [SerializeField] ParticleSystem particleEffect;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("EcoDuct"))
+        if (collision.transform.CompareTag("EcoDuct"))
         {
             EventSystemNew<int, int>.RaiseEvent(Event_Type.QUEST_ADD_AMOUNT, questID, 1);
         }
 
-        if (IsInLayerMask(other.gameObject, layersToCollide))
+        if (IsInLayerMask(collision.transform.gameObject, layersToCollide))
         {
             //Instantiate(particleEffect, other.transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        //if (other.CompareTag("EcoDuct"))
+        //{
+        //    EventSystemNew<int, int>.RaiseEvent(Event_Type.QUEST_ADD_AMOUNT, questID, 1);
+        //}
+
+        //if (IsInLayerMask(other.gameObject, layersToCollide))
+        //{
+        //    //Instantiate(particleEffect, other.transform.position, Quaternion.identity);
+        //    Destroy(gameObject);
+        //}
     }
 
     public bool IsInLayerMask(GameObject obj, LayerMask layerMask)

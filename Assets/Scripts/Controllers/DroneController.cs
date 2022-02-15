@@ -34,8 +34,15 @@ public class DroneController : IInteractable
     [SerializeField] float tiltAmountForward = 20f;
     [SerializeField] float rotateAmountByKeys = 2.5f;
 
+    [Header("Player GroundCheck")]
+    [SerializeField] Transform groundCheck;
+    [SerializeField] float groundDistance = 0.1f;
+    [SerializeField] LayerMask groundLayer;
+
     Vector2 curMovementInput;
     Vector2 curRotationInput;
+
+    bool isGrounded = false;
 
     bool isControlling = false;
 
@@ -71,6 +78,8 @@ public class DroneController : IInteractable
 
     private void Update()
     {
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundLayer, QueryTriggerInteraction.Ignore);
+
         if (!isControlling)
         {
             animator.SetBool("isFlying", false);
@@ -162,7 +171,7 @@ public class DroneController : IInteractable
     {
         if (context.phase == InputActionPhase.Performed)
         {
-            if (isControlling)
+            if (isControlling && !isGrounded)
             {
                 curMovementInput = context.ReadValue<Vector2>();
 
