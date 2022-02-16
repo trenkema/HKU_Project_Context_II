@@ -606,6 +606,22 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "ToggleQuestsWindow",
+                    "type": "Button",
+                    "id": "c552691a-ceca-482c-8f79-223bcc37ecfd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ToggleForceQuestsWindow",
+                    "type": "Button",
+                    "id": "a0a519aa-9b38-40fb-a5a2-ef75b9acc926",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -1112,6 +1128,28 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "Navigate (Controller)",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5e3aec16-180a-4796-a1b6-a2c341141f0c",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "ToggleQuestsWindow",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ddba5e5f-5c7c-4b88-b171-25b664eee437",
+                    "path": "<Keyboard>/backquote",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "ToggleForceQuestsWindow",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

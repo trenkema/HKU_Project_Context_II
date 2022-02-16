@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 using TMPro;
 
 public class QuestManager : MonoBehaviour
@@ -18,15 +19,27 @@ public class QuestManager : MonoBehaviour
     [SerializeField] int amountOfQuests = 1;
 
     [Header("References")]
+    [SerializeField] GameObject questWindow;
+    [SerializeField] GameObject forceQuestWindow;
+
+    [SerializeField] TMP_InputField questInputField;
+
     [SerializeField] RectTransform activeQuestsContentRectTransform;
     [SerializeField] RectTransform completedQuestsContentRectTransform;
+
+    [SerializeField] RectTransform activeForceQuestsContentRectTransform;
+    [SerializeField] RectTransform completedForceQuestsContentRectTransform;
 
     [SerializeField] GameObject questPrefab;
 
     List<Quest> activeQuests = new List<Quest>();
     List<Quest> completedQuests = new List<Quest>();
 
+    List<Quest> activeForceQuests = new List<Quest>();
+    List<Quest> completedForceQuests = new List<Quest>();
+
     Dictionary<Quest, GameObject> questItems = new Dictionary<Quest, GameObject>();
+    Dictionary<Quest, GameObject> forceQuestItems = new Dictionary<Quest, GameObject>();
 
     int activeQuestID = 0;
 
@@ -49,10 +62,34 @@ public class QuestManager : MonoBehaviour
         EventSystemNew<Quest, int>.Unsubscribe(Event_Type.QUEST_ADD_AMOUNT, AddAmountToQuest);
     }
 
+    public void ToggleQuestWindow(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            questWindow.SetActive(!questWindow.activeInHierarchy);
+            forceQuestWindow.SetActive(false);
+        }
+    }
+
+    public void ToggleForceQuestWindow(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            questInputField.text = "";
+            forceQuestWindow.SetActive(!forceQuestWindow.activeInHierarchy);
+            questWindow.SetActive(false);
+        }
+    }
+
     private void ActivateQuest(Quest _quest)
     {
         if (!_quest.isActive && !_quest.isCompleted)
         {
+            _quest.isActive = true;
+            _quest.isCompleted = false;
+
+            // Quests
+
             activeQuests.Add(_quest);
 
             GameObject newQuestPrefab = Instantiate(questPrefab);
@@ -67,6 +104,23 @@ public class QuestManager : MonoBehaviour
             questItem.questDescription.text = _quest.questDescription;
 
             questItem.UpdateAmount(_quest.questCurrentAmount, _quest.questMaxAmount);
+
+            // Force Quests
+
+            activeForceQuests.Add(_quest);
+
+            GameObject newForceQuestPrefab = Instantiate(questPrefab);
+
+            forceQuestItems.Add(_quest, newForceQuestPrefab);
+
+            newForceQuestPrefab.transform.SetParent(activeForceQuestsContentRectTransform.transform, false);
+
+            QuestItem forceQuestItem = newForceQuestPrefab.GetComponent<QuestItem>();
+
+            forceQuestItem.questName.text = _quest.questName;
+            forceQuestItem.questDescription.text = _quest.questDescription;
+
+            forceQuestItem.UpdateAmount(_quest.questCurrentAmount, _quest.questMaxAmount);
 
             foreach (var quest in quests)
             {
@@ -87,6 +141,8 @@ public class QuestManager : MonoBehaviour
     {
         if (_quest.isActive && _quest.isCompleted)
         {
+            // Quest
+
             _quest.isActive = false;
             _quest.isCompleted = true;
 
@@ -99,6 +155,18 @@ public class QuestManager : MonoBehaviour
             questItem.transform.SetParent(completedQuestsContentRectTransform.transform, false);
 
             questItem.UpdateAmount(_quest.questMaxAmount, _quest.questMaxAmount);
+
+            // Force Quest
+
+            activeForceQuests.Remove(_quest);
+            completedForceQuests.Add(_quest);
+
+            GameObject forceQuestObject = forceQuestItems[_quest].gameObject;
+            QuestItem forceQuestItem = forceQuestObject.GetComponent<QuestItem>();
+
+            forceQuestItem.transform.SetParent(completedQuestsContentRectTransform.transform, false);
+
+            forceQuestItem.UpdateAmount(_quest.questMaxAmount, _quest.questMaxAmount);
 
             foreach (var quest in quests)
             {
@@ -116,6 +184,32 @@ public class QuestManager : MonoBehaviour
 
                     break;
                 }
+            }
+        }
+    }
+
+    public void SetQuestActive()
+    {
+        foreach (var quest in quests)
+        {
+            if (quest.quest.questID.ToString() == questInputField.text)
+            {
+                ActivateQuest(quest.quest);
+
+                break;
+            }
+        }
+    }
+
+    public void SetQuestCompleted()
+    {
+        foreach (var quest in quests)
+        {
+            if (quest.quest.questID.ToString() == questInputField.text)
+            {
+                QuestCompleted(quest.quest);
+
+                break;
             }
         }
     }
