@@ -7,7 +7,8 @@ public enum Event_Type
     PILAR_BUILD,
     QUEST_ADD_AMOUNT,
     QUEST_COMPLETED,
-    ACTIVATE_QUEST
+    ACTIVATE_QUEST,
+    TOGGLE_CURSOR
 }
 
 public static class EventSystemNew

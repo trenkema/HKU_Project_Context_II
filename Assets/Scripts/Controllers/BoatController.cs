@@ -63,8 +63,6 @@ public class BoatController : IInteractable
 
     float smoothDampVelocity;
 
-    float newZRotation;
-
     private void Awake()
     {
         robotArmMap = playerInput.actions.FindActionMap("RobotArmControls");

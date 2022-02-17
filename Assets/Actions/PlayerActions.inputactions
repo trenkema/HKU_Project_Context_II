@@ -325,6 +325,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Rotating",
+                    "type": "Value",
+                    "id": "fe67a371-f802-47ca-ae0f-54b7c0d3a495",
+                    "expectedControlType": "Vector2",
+                    "processors": "NormalizeVector2",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -338,6 +346,39 @@
                     "action": "Hit",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "Arrow Keys",
+                    "id": "6908d3aa-4ccc-49b4-9e6b-c1bd499169c6",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotating",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "left",
+                    "id": "520aa1bc-200b-435d-ac03-ad46a4b153d0",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Rotating",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "9e5a1c40-8625-4706-95fd-1b6ae29fb6bf",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Rotating",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },
@@ -619,6 +660,22 @@
                     "name": "ToggleForceQuestsWindow",
                     "type": "Button",
                     "id": "a0a519aa-9b38-40fb-a5a2-ef75b9acc926",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "PreviousTabQuestsWindow",
+                    "type": "Button",
+                    "id": "e78d2789-b3f9-4cce-8383-13bf588b68e3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "NextTabQuestsWindow",
+                    "type": "Button",
+                    "id": "7682ac95-eafc-487d-9062-bebc42c462de",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -1150,6 +1207,28 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "ToggleForceQuestsWindow",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "76ed1804-c8e3-42f8-a87b-b6f5893f101c",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "PreviousTabQuestsWindow",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "10c1e36f-c716-4d3c-b42c-e928d2836514",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "NextTabQuestsWindow",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

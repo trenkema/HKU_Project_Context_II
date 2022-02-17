@@ -44,7 +44,7 @@ public class Quest : MonoBehaviour
 
             if (questCurrentAmount >= questMaxAmount)
             {
-                EventSystemNew<int>.RaiseEvent(Event_Type.QUEST_COMPLETED, questID);
+                EventSystemNew<Quest>.RaiseEvent(Event_Type.QUEST_COMPLETED, this);
             }
         }
     }

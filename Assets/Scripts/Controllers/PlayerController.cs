@@ -28,13 +28,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float groundDistance = 0.1f;
     [SerializeField] LayerMask groundLayer;
 
-    [Header("Interaction Texts")]
-    [SerializeField] TextMeshProUGUI interactionText;
-
     float curCamRotX;
     Vector2 mouseDelta;
 
-    public bool canLook = true;
     public Vector2 curMovementInput { private set; get; }
     Vector2 smoothInputVelocity;
 
@@ -44,9 +40,21 @@ public class PlayerController : MonoBehaviour
 
     bool isGrounded = true;
 
+    bool canMove = false;
+
     private void Start()
     {
         isSprinting = false;
+    }
+
+    private void OnEnable()
+    {
+        EventSystemNew<bool>.Subscribe(Event_Type.TOGGLE_CURSOR, ToggleCursor);
+    }
+
+    private void OnDisable()
+    {
+        EventSystemNew<bool>.Unsubscribe(Event_Type.TOGGLE_CURSOR, ToggleCursor);
     }
 
     private void Update()
@@ -62,6 +70,11 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+    }
+
+    private void ToggleCursor(bool _toggleOn)
+    {
+        canMove = !_toggleOn;
     }
 
     private void Move()
@@ -82,6 +95,9 @@ public class PlayerController : MonoBehaviour
 
     private void CameraLook()
     {
+        if (!canMove)
+            return;
+
         curCamRotX += mouseDelta.y * lookSensitivity;
         curCamRotX = Mathf.Clamp(curCamRotX, minXLook, maxXLook);
         cameraHolder.localEulerAngles = new Vector3(-curCamRotX, 0, 0);
@@ -96,7 +112,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnMoveInput(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (context.phase == InputActionPhase.Performed && canMove)
         {
             isMoving = true;
             curMovementInput = context.ReadValue<Vector2>();
@@ -109,7 +125,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnSprintInput(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started)
+        if (context.phase == InputActionPhase.Started && canMove)
         {
             isSprinting = true;
 
@@ -125,7 +141,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnJumpInput(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started)
+        if (context.phase == InputActionPhase.Started && canMove)
         {
             if (isGrounded)
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);

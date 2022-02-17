@@ -30,6 +30,15 @@ public class RobotArmController : MonoBehaviour
     [SerializeField] int OrangeZoneHitAmount = 2;
     [SerializeField] int GreenZoneHitAmount = 3;
 
+    [Header("Arm Settings")]
+    [SerializeField] float rotateSpeed = 5f;
+    [SerializeField] float rotateDamping = 5f;
+
+    [Space(10)]
+
+    [SerializeField] float minYRotation;
+    [SerializeField] float maxYRotation;
+
     bool isControlling = false;
 
     bool canHit = true;
@@ -42,9 +51,18 @@ public class RobotArmController : MonoBehaviour
 
     Vector3 currentValue;
 
+    Vector2 curRotateInput = Vector2.zero;
+
+    float newYRotation;
+
     float pointerLerpTimeElapsed;
 
     float amountOfHits = 0;
+
+    private void Start()
+    {
+        newYRotation = transform.localEulerAngles.y;
+    }
 
     private void Update()
     {
@@ -75,6 +93,11 @@ public class RobotArmController : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        RotateArm();
+    }
+
     public void EnableHUD()
     {
         hud.SetActive(true);
@@ -87,6 +110,25 @@ public class RobotArmController : MonoBehaviour
         canHit = true;
 
         hasHit = false;
+    }
+
+    public void Rotate(InputAction.CallbackContext _context)
+    {
+        curRotateInput = _context.ReadValue<Vector2>();
+    }
+
+    private void RotateArm()
+    {
+        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("Hit") && canHit && isControlling)
+        {
+            newYRotation += rotateSpeed * curRotateInput.x * Time.fixedDeltaTime;
+
+            Debug.Log("New Rotation: " + newYRotation);
+
+            newYRotation = Mathf.Clamp(newYRotation, minYRotation, maxYRotation);
+
+            transform.localEulerAngles = Vector3.Lerp(transform.localEulerAngles, new Vector3(transform.localEulerAngles.x, newYRotation, transform.localEulerAngles.z), Time.fixedDeltaTime * rotateDamping);
+        }
     }
 
     public void Hit(InputAction.CallbackContext _context)
@@ -102,24 +144,18 @@ public class RobotArmController : MonoBehaviour
                 if (hitPointerPos > minRedZone && hitPointerPos < maxRedZone)
                 {
                     // In Red Zone
-                    Debug.Log("Hit Red Zone");
-
                     amountOfHits = redZoneHitAmount;
                 }
 
                 if (hitPointerPos > minOrangeZone && hitPointerPos < maxOrangeZone)
                 {
                     // In Orange Zone
-                    Debug.Log("Hit Orange Zone");
-
                     amountOfHits = OrangeZoneHitAmount;
                 }
 
                 if (hitPointerPos > minGreenZone && hitPointerPos < maxGreenZone)
                 {
                     // In Green Zone
-                    Debug.Log("Hit Green Zone");
-
                     amountOfHits = GreenZoneHitAmount;
                 }
 
@@ -145,8 +181,6 @@ public class RobotArmController : MonoBehaviour
                     hasHit = true;
 
                     amountOfHits = 0;
-
-                    Debug.Log("Hit Pilar");
 
                     break;
                 }
