@@ -49,12 +49,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        EventSystemNew<bool>.Subscribe(Event_Type.TOGGLE_CURSOR, ToggleCursor);
+        EventSystemNew<bool>.Subscribe(Event_Type.CURSOR_ON, ToggleCursor);
     }
 
     private void OnDisable()
     {
-        EventSystemNew<bool>.Unsubscribe(Event_Type.TOGGLE_CURSOR, ToggleCursor);
+        EventSystemNew<bool>.Unsubscribe(Event_Type.CURSOR_ON, ToggleCursor);
     }
 
     private void Update()

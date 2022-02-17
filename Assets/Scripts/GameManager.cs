@@ -45,15 +45,15 @@ public class GameManager : MonoBehaviour
     {
         EventSystemNew<Quest>.RaiseEvent(Event_Type.ACTIVATE_QUEST, temporaryStartQuest);
 
-        EventSystemNew<bool>.Subscribe(Event_Type.TOGGLE_CURSOR, ToggleCursor);
+        EventSystemNew<bool>.Subscribe(Event_Type.CURSOR_ON, CursorOn);
     }
 
     private void OnDisable()
     {
-        EventSystemNew<bool>.Unsubscribe(Event_Type.TOGGLE_CURSOR, ToggleCursor);
+        EventSystemNew<bool>.Unsubscribe(Event_Type.CURSOR_ON, CursorOn);
     }
 
-    private void ToggleCursor(bool _toggleOn)
+    private void CursorOn(bool _toggleOn)
     {
         if (_toggleOn)
         {
@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
 
     private void Started()
     {
-        EventSystemNew<bool>.RaiseEvent(Event_Type.TOGGLE_CURSOR, false);
+        EventSystemNew<bool>.RaiseEvent(Event_Type.CURSOR_ON, false);
 
         playerCrosshair.SetActive(true);
 

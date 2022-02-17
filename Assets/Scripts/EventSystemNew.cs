@@ -8,7 +8,7 @@ public enum Event_Type
     QUEST_ADD_AMOUNT,
     QUEST_COMPLETED,
     ACTIVATE_QUEST,
-    TOGGLE_CURSOR
+    CURSOR_ON
 }
 
 public static class EventSystemNew

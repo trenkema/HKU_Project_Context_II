@@ -679,6 +679,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Map",
+                    "type": "Button",
+                    "id": "96005fb3-812b-4ae0-98a4-b817aea2a4f7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -1229,6 +1237,17 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "NextTabQuestsWindow",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "714c2b9c-7ede-4939-99ef-f17411fa2f31",
+                    "path": "<Keyboard>/m",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Map",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

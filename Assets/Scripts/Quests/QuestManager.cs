@@ -166,7 +166,7 @@ public class QuestManager : MonoBehaviour
                     noQuestsText.SetActive(false);
             }
 
-            EventSystemNew<bool>.RaiseEvent(Event_Type.TOGGLE_CURSOR, questWindow.activeInHierarchy);
+            EventSystemNew<bool>.RaiseEvent(Event_Type.CURSOR_ON, questWindow.activeInHierarchy);
         }
     }
 
@@ -192,7 +192,7 @@ public class QuestManager : MonoBehaviour
                     noForceQuestsText.SetActive(false);
             }
 
-            EventSystemNew<bool>.RaiseEvent(Event_Type.TOGGLE_CURSOR, forceQuestWindow.activeInHierarchy);
+            EventSystemNew<bool>.RaiseEvent(Event_Type.CURSOR_ON, forceQuestWindow.activeInHierarchy);
         }
     }
 
