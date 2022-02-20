@@ -1,5 +1,8 @@
+EXTERNAL isTalking(string npcName)
+~ isTalking("default")
 - I looked at Monsieur Fogg 
 *   ... and I could contain myself no longer.
+~ isTalking("missing")
     'What is the purpose of our journey, Monsieur?'
     'A wager,' he replied.
     * *     'A wager!'[] I returned.

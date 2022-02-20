@@ -2,12 +2,35 @@
 using UnityEngine.UI;
 using System;
 using Ink.Runtime;
+using TMPro;
 
 // This is a super bare bones example of how to play and display a ink story in Unity.
 public class BasicInkExample : MonoBehaviour {
     public static event Action<Story> OnCreateStory;
-	
-    void Awake () {
+
+	[SerializeField]
+	private TextAsset inkJSONAsset = null;
+	public Story story;
+
+	[SerializeField]
+	private Canvas canvas = null;
+	[SerializeField]
+	private RectTransform textParent = null;
+	[SerializeField]
+	private RectTransform choiceParent = null;
+	// UI Prefabs
+	[SerializeField]
+	private TextMeshProUGUI textPrefab = null;
+	[SerializeField]
+	private Button buttonPrefab = null;
+	[SerializeField]
+	private TextMeshProUGUI npcName = null;
+	[SerializeField]
+	private Image npcImage = null;
+	[SerializeField]
+	private npcScriptableObject[] npcs;
+
+	void Awake () {
 		// Remove the default message
 		RemoveChildren();
 		StartStory();
@@ -17,6 +40,10 @@ public class BasicInkExample : MonoBehaviour {
 	void StartStory () {
 		story = new Story (inkJSONAsset.text);
         if(OnCreateStory != null) OnCreateStory(story);
+		story.BindExternalFunction("isTalking", (string name) => {
+			isTalking(name);
+			
+		});
 		RefreshView();
 	}
 	
@@ -30,7 +57,7 @@ public class BasicInkExample : MonoBehaviour {
 		// Read all the content until we can't continue any more
 		while (story.canContinue) {
 			// Continue gets the next line of the story
-			string text = story.Continue ();
+			string text = story.Continue();
 			// This removes any white space from the text.
 			text = text.Trim();
 			// Display the text on screen!
@@ -45,6 +72,7 @@ public class BasicInkExample : MonoBehaviour {
 				// Tell the button what to do when we press it
 				button.onClick.AddListener (delegate {
 					OnClickChoiceButton (choice);
+					
 				});
 			}
 		}
@@ -65,23 +93,23 @@ public class BasicInkExample : MonoBehaviour {
 
 	// Creates a textbox showing the the line of text
 	void CreateContentView (string text) {
-		Text storyText = Instantiate (textPrefab) as Text;
+		TextMeshProUGUI storyText = Instantiate (textPrefab) as TextMeshProUGUI;
 		storyText.text = text;
-		storyText.transform.SetParent (canvas.transform, false);
+		storyText.transform.SetParent (textParent.transform, false);
 	}
 
 	// Creates a button showing the choice text
 	Button CreateChoiceView (string text) {
 		// Creates the button from a prefab
 		Button choice = Instantiate (buttonPrefab) as Button;
-		choice.transform.SetParent (canvas.transform, false);
+		choice.transform.SetParent (choiceParent.transform, false);
 		
 		// Gets the text from the button prefab
-		Text choiceText = choice.GetComponentInChildren<Text> ();
+		TextMeshProUGUI choiceText = choice.GetComponentInChildren<TextMeshProUGUI>();
 		choiceText.text = text;
 
 		// Make the button expand to fit the text
-		HorizontalLayoutGroup layoutGroup = choice.GetComponent <HorizontalLayoutGroup> ();
+		HorizontalLayoutGroup layoutGroup = choice.GetComponent <HorizontalLayoutGroup>();
 		layoutGroup.childForceExpandHeight = false;
 
 		return choice;
@@ -89,22 +117,36 @@ public class BasicInkExample : MonoBehaviour {
 
 	// Destroys all the children of this gameobject (all the UI)
 	void RemoveChildren () {
-		int childCount = canvas.transform.childCount;
+		int childCount = textParent.transform.childCount;
 		for (int i = childCount - 1; i >= 0; --i) {
-			GameObject.Destroy (canvas.transform.GetChild (i).gameObject);
+			GameObject.Destroy (textParent.transform.GetChild (i).gameObject);
+		}
+		childCount = choiceParent.transform.childCount;
+		for (int i = childCount - 1; i >= 0; --i)
+		{
+			GameObject.Destroy(choiceParent.transform.GetChild(i).gameObject);
+
 		}
 	}
 
-	[SerializeField]
-	private TextAsset inkJSONAsset = null;
-	public Story story;
+	void isTalking(string name)
+    {
+		bool hasFoundName = false;
 
-	[SerializeField]
-	private Canvas canvas = null;
-
-	// UI Prefabs
-	[SerializeField]
-	private Text textPrefab = null;
-	[SerializeField]
-	private Button buttonPrefab = null;
+        foreach(npcScriptableObject npc in npcs)
+        {
+			if(npc.npcName == name)
+            {
+				npcName.text = npc.npcName;
+				npcImage.sprite = npc.npcSprite;
+				hasFoundName = true;
+				Debug.Log(name + " is talking");
+			}
+        }
+		if(hasFoundName == false)
+        {
+			Debug.Log("<color=red>Error: There is no NPC asset with the name " + name + " found.</color>");
+			Debug.Break();
+        }
+    }
 }
