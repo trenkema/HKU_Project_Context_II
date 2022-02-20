@@ -1,4 +1,4 @@
-EXTERNAL isTalking(string npcName)
+EXTERNAL isTalking(npcName)
 ~ isTalking("default")
 - I looked at Monsieur Fogg 
 *   ... and I could contain myself no longer.

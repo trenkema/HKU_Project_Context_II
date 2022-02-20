@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Collections;
 using Ink.Runtime;
 using TMPro;
 
@@ -12,9 +13,6 @@ public class BasicInkExample : MonoBehaviour
     [SerializeField]
     private TextAsset inkJSONAsset = null;
     public Story story;
-
-    [SerializeField]
-    private Canvas canvas = null;
     [SerializeField]
     private RectTransform textParent = null;
     [SerializeField]
@@ -108,6 +106,17 @@ public class BasicInkExample : MonoBehaviour
         storyText.text = text;
         storyText.transform.SetParent(textParent.transform, false);
     }
+
+    //IEnumerator ScrollText(TextMeshProUGUI storyText, string text)
+    //{
+    //    for(int i = 0; i < text.Length; i++)
+    //    {
+    //        string currentText = text.Substring(0, i);
+    //        storyText.text = currentText;
+    //        yield return new WaitForSeconds(0.1f);
+    //    }
+
+    //}
 
     // Creates a button showing the choice text
     Button CreateChoiceView(string text)
