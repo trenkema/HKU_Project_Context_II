@@ -8,7 +8,8 @@ public enum Event_Type
     QUEST_ADD_AMOUNT,
     QUEST_COMPLETED,
     ACTIVATE_QUEST,
-    CURSOR_ON
+    CURSOR_ON,
+    FREEZE_ACTIONS
 }
 
 public static class EventSystemNew

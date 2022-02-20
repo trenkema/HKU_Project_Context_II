@@ -586,7 +586,7 @@
                 },
                 {
                     "name": "Click",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "01236ecb-ac9a-496d-9418-6c8bc14bc1ff",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -685,6 +685,22 @@
                     "type": "Button",
                     "id": "96005fb3-812b-4ae0-98a4-b817aea2a4f7",
                     "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "MapZoom",
+                    "type": "Value",
+                    "id": "bcdc969b-9dc1-4a27-a821-f5da1090d1a1",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "MousePosition",
+                    "type": "Value",
+                    "id": "86b50d20-0aa1-4dc9-b55a-60ad5fc025ba",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
                 }
@@ -1248,6 +1264,28 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "Map",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "61c4a17a-7dd2-42b8-8701-51a0eb9f364f",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "MapZoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d092b5ee-1c4b-46ec-a315-c41f4398fde5",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "MousePosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -167,6 +167,7 @@ public class QuestManager : MonoBehaviour
             }
 
             EventSystemNew<bool>.RaiseEvent(Event_Type.CURSOR_ON, questWindow.activeInHierarchy);
+            EventSystemNew<bool>.RaiseEvent(Event_Type.FREEZE_ACTIONS, questWindow.activeInHierarchy);
         }
     }
 
@@ -193,6 +194,7 @@ public class QuestManager : MonoBehaviour
             }
 
             EventSystemNew<bool>.RaiseEvent(Event_Type.CURSOR_ON, forceQuestWindow.activeInHierarchy);
+            EventSystemNew<bool>.RaiseEvent(Event_Type.FREEZE_ACTIONS, forceQuestWindow.activeInHierarchy);
         }
     }
 
@@ -328,7 +330,10 @@ public class QuestManager : MonoBehaviour
             {
                 if (quest.quest.questID.ToString() == questInputField.text)
                 {
-                    EventSystemNew<Quest>.RaiseEvent(Event_Type.ACTIVATE_QUEST, quest.quest);
+                    if (!quest.quest.isActive && !quest.quest.isCompleted)
+                    {
+                        EventSystemNew<Quest>.RaiseEvent(Event_Type.ACTIVATE_QUEST, quest.quest);
+                    }
 
                     break;
                 }
@@ -344,7 +349,10 @@ public class QuestManager : MonoBehaviour
             {
                 if (quest.quest.questID.ToString() == questInputField.text)
                 {
-                    EventSystemNew<Quest>.RaiseEvent(Event_Type.QUEST_COMPLETED, quest.quest);
+                    if (quest.quest.isActive && !quest.quest.isCompleted)
+                    {
+                        EventSystemNew<Quest>.RaiseEvent(Event_Type.QUEST_COMPLETED, quest.quest);
+                    }
 
                     break;
                 }

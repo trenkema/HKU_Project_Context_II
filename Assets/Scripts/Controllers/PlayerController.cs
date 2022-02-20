@@ -40,21 +40,13 @@ public class PlayerController : MonoBehaviour
 
     bool isGrounded = true;
 
-    bool canMove = false;
+    FreezeActions freezeActionsManager;
 
     private void Start()
     {
         isSprinting = false;
-    }
 
-    private void OnEnable()
-    {
-        EventSystemNew<bool>.Subscribe(Event_Type.CURSOR_ON, ToggleCursor);
-    }
-
-    private void OnDisable()
-    {
-        EventSystemNew<bool>.Unsubscribe(Event_Type.CURSOR_ON, ToggleCursor);
+        freezeActionsManager = FreezeActions.Instance;
     }
 
     private void Update()
@@ -72,14 +64,9 @@ public class PlayerController : MonoBehaviour
         Move();
     }
 
-    private void ToggleCursor(bool _toggleOn)
-    {
-        canMove = !_toggleOn;
-    }
-
     private void Move()
     {
-        if (!isMoving)
+        if (!isMoving || freezeActionsManager.isFrozen)
         {
             curMovementInput = Vector2.SmoothDamp(curMovementInput, Vector2.zero, ref smoothInputVelocity, smoothInputSpeed);
         }
@@ -95,7 +82,7 @@ public class PlayerController : MonoBehaviour
 
     private void CameraLook()
     {
-        if (!canMove)
+        if (freezeActionsManager.isFrozen)
             return;
 
         curCamRotX += mouseDelta.y * lookSensitivity;
@@ -112,7 +99,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnMoveInput(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed && canMove)
+        if (context.phase == InputActionPhase.Performed && !freezeActionsManager.isFrozen)
         {
             isMoving = true;
             curMovementInput = context.ReadValue<Vector2>();
@@ -125,7 +112,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnSprintInput(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started && canMove)
+        if (context.phase == InputActionPhase.Started && !freezeActionsManager.isFrozen)
         {
             isSprinting = true;
 
@@ -141,7 +128,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnJumpInput(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started && canMove)
+        if (context.phase == InputActionPhase.Started && !freezeActionsManager.isFrozen)
         {
             if (isGrounded)
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);

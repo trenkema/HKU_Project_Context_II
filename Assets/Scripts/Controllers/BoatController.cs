@@ -63,6 +63,8 @@ public class BoatController : IInteractable
 
     float smoothDampVelocity;
 
+    FreezeActions freezeActionsManager;
+
     private void Awake()
     {
         robotArmMap = playerInput.actions.FindActionMap("RobotArmControls");
@@ -79,13 +81,18 @@ public class BoatController : IInteractable
         boatHUD.SetActive(false);
     }
 
+    private void Start()
+    {
+        freezeActionsManager = FreezeActions.Instance;
+    }
+
     private void FixedUpdate()
     {
-        if (isMoving)
+        if (isMoving && !freezeActionsManager.isFrozen)
         {
             currentVelocity = Mathf.SmoothDamp(currentVelocity, maxVelocity * latestMovementDirection, ref smoothDampVelocity, accelerateTime);
         }
-        else
+        else if (!isMoving || freezeActionsManager.isFrozen)
         {
             currentVelocity = Mathf.SmoothDamp(currentVelocity, 0f, ref smoothDampVelocity, slowDownTime);
         }
@@ -101,7 +108,7 @@ public class BoatController : IInteractable
 
     public void EnterDeck(InputAction.CallbackContext _context)
     {
-        if (_context.performed)
+        if (_context.performed && !freezeActionsManager.isFrozen)
         {
             if (isControlling && !controllingArm)
             {
@@ -124,7 +131,7 @@ public class BoatController : IInteractable
 
     public void ToggleRobotArmControl(InputAction.CallbackContext _context)
     {
-        if (_context.performed)
+        if (_context.performed && !freezeActionsManager.isFrozen)
         {
             if (isControlling && robotArmController.CanToggleControl())
             {
@@ -162,7 +169,7 @@ public class BoatController : IInteractable
 
     public void Moving(InputAction.CallbackContext _context)
     {
-        if (_context.performed)
+        if (_context.performed && !freezeActionsManager.isFrozen)
         {
             isMoving = true;
 
@@ -189,6 +196,9 @@ public class BoatController : IInteractable
 
     private void RotateBoat()
     {
+        if (freezeActionsManager.isFrozen)
+            return;
+
         if (currentVelocity > 1f)
         {
             float newSteerSpeed;
@@ -253,7 +263,7 @@ public class BoatController : IInteractable
 
     public override string GetInteractPrompt(InteractableTypes _interactableType, string _interactableName)
     {
-        if (!isControlling)
+        if (!isControlling && !freezeActionsManager.isFrozen)
         {
             switch (_interactableType)
             {
@@ -272,6 +282,9 @@ public class BoatController : IInteractable
 
     public override void OnInteract(InteractableTypes _interactableType)
     {
+        if (freezeActionsManager.isFrozen)
+            return;
+
         switch (_interactableType)
         {
             case InteractableTypes.Controlable:
