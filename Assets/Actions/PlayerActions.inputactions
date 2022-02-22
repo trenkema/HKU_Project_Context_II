@@ -1237,7 +1237,7 @@
                 {
                     "name": "",
                     "id": "76ed1804-c8e3-42f8-a87b-b6f5893f101c",
-                    "path": "<Keyboard>/o",
+                    "path": "<Keyboard>/q",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -1248,7 +1248,7 @@
                 {
                     "name": "",
                     "id": "10c1e36f-c716-4d3c-b42c-e928d2836514",
-                    "path": "<Keyboard>/p",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
