@@ -44,6 +44,9 @@ public class BasicInkExample : MonoBehaviour
         story.BindExternalFunction("isTalking", (string name) =>
         {
             isTalking(name);
+        }); story.BindExternalFunction("switchQuest", () =>
+        {
+
         });
         RefreshView();
     }

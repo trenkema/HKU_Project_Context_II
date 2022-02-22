@@ -1,4 +1,6 @@
 EXTERNAL isTalking(npcName)
+VAR canTalkToBob = false
+
 ~ isTalking("default")
 - I looked at Monsieur Fogg 
 *   ... and I could contain myself no longer.
@@ -19,4 +21,6 @@ EXTERNAL isTalking(npcName)
     - -     After that, <>
 *   ... but I said nothing[] and <>
 - we passed the day in silence.
+
+
 - -> END
