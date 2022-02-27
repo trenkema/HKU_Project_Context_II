@@ -110,11 +110,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13713c5a0510f164586a9641cfd2f4f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questID: 1
+  quest: {fileID: 11400000, guid: 7dd2c23f384d29e44a0035e39f96a360, type: 2}
   layersToCollide:
     serializedVersion: 2
-    m_Bits: 457
-  particleEffect: {fileID: 0}
+    m_Bits: 4553
+  vegetationPrefabs:
+  - {fileID: 3966251596146204085, guid: ce9093074af84634e9541c8071611251, type: 3}
+  - {fileID: 3077934859969377548, guid: cb9f132f89c3c004eb38df6d73fc3baa, type: 3}
+  - {fileID: 7449127400024051424, guid: c5dadb84c3b8eaf48826d8ca059eb7af, type: 3}
+  - {fileID: 8160313617975965203, guid: 3ea17e1a71a06524ca9415206c97dc86, type: 3}
 --- !u!54 &8703121961791036249
 Rigidbody:
   m_ObjectHideFlags: 0

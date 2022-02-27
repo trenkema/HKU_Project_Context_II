@@ -50,6 +50,12 @@ public class QuestManager : MonoBehaviour
 
     private void Awake()
     {
+        activeTabText.color = activeTextColor;
+        doneTabText.color = inActiveTextColor;
+    }
+
+    private void OnEnable()
+    {
         EventSystemNew<Quest>.Subscribe(Event_Type.ACTIVATE_QUEST, ActivateQuest);
         EventSystemNew<int>.Subscribe(Event_Type.ACTIVATE_QUEST, SetQuestActive);
 
@@ -57,9 +63,6 @@ public class QuestManager : MonoBehaviour
         EventSystemNew<int>.Subscribe(Event_Type.QUEST_COMPLETED, SetQuestCompleted);
 
         EventSystemNew<Quest, int>.Subscribe(Event_Type.QUEST_ADD_AMOUNT, AddAmountToQuest);
-
-        activeTabText.color = activeTextColor;
-        doneTabText.color = inActiveTextColor;
     }
 
     private void OnDisable()
@@ -186,6 +189,19 @@ public class QuestManager : MonoBehaviour
 
             if (activeQuestsScrollArea.activeInHierarchy)
                 noQuestsText.SetActive(false);
+
+            foreach (var quest in quests)
+            {
+                if (quest.quest == _quest)
+                {
+                    foreach (var qObject in quest.questObjects)
+                    {
+                        qObject.SetActive(true);
+                    }
+
+                    break;
+                }
+            }
         }
     }
 
@@ -210,6 +226,24 @@ public class QuestManager : MonoBehaviour
 
             if (completedQuestsScrollArea.activeInHierarchy)
                 noQuestsText.SetActive(false);
+
+            foreach (var quest in quests)
+            {
+                if (quest.quest == _quest)
+                {
+                    foreach (var qObject in quest.questObjects)
+                    {
+                        qObject.SetActive(false);
+                    }
+
+                    foreach (var qCompletionObject in quest.questCompletionObjects)
+                    {
+                        qCompletionObject.SetActive(true);
+                    }
+
+                    break;
+                }
+            }
         }
     }
 
@@ -309,8 +343,6 @@ public class QuestLibrary
     public string questName;
 
     public Quest quest;
-
-    public TextMeshProUGUI objectiveText;
 
     public GameObject[] questObjects;
 

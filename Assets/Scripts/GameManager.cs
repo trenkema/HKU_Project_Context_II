@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
 
         fadeAnimator.SetBool("FadeOut", true);
         fadeAnimator.SetBool("FadeIn", false);
+
+        EventSystemNew<bool>.RaiseEvent(Event_Type.FREEZE_ACTIONS, true); // Freeze Movement At Start
     }
 
     private void OnEnable()
@@ -82,6 +84,7 @@ public class GameManager : MonoBehaviour
     private void Started()
     {
         EventSystemNew<bool>.RaiseEvent(Event_Type.CURSOR_ON, false);
+        EventSystemNew<bool>.RaiseEvent(Event_Type.FREEZE_ACTIONS, false);
 
         playerCrosshair.SetActive(true);
 

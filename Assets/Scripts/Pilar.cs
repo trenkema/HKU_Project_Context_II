@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Pilar : MonoBehaviour
 {
+    [SerializeField] Quest quest;
+
     [SerializeField] GameObject buildPilar;
 
     [SerializeField] float hitsRequired = 3;
@@ -33,7 +35,7 @@ public class Pilar : MonoBehaviour
         {
             buildPilar.SetActive(true);
 
-            EventSystemNew.RaiseEvent(Event_Type.PILAR_BUILD);
+            EventSystemNew<Quest, int>.RaiseEvent(Event_Type.QUEST_ADD_AMOUNT, quest, 1);
 
             gameObject.SetActive(false);
         }

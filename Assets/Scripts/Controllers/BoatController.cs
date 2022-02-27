@@ -35,8 +35,7 @@ public class BoatController : IInteractable
     [SerializeField] float maxVelocity = 5f;
     [SerializeField] float steerSpeed = 5f;
     [SerializeField] float steerSpeedWhenStopped = 5f;
-
-    [SerializeField] float breakTime = 3f;
+    [SerializeField] float steerDamping = 5f;
 
     Vector3 forwardVelocity = Vector3.zero;
 
@@ -64,6 +63,8 @@ public class BoatController : IInteractable
     float smoothDampVelocity;
 
     FreezeActions freezeActionsManager;
+
+    float newYRotation = 0f;
 
     private void Awake()
     {
@@ -199,40 +200,36 @@ public class BoatController : IInteractable
         if (freezeActionsManager.isFrozen)
             return;
 
-        if (currentVelocity > 1f)
-        {
-            float newSteerSpeed;
+        float newSteerSpeed = 0f;
 
-            if (Mathf.Abs(curSteerInput.x) != 0f)
-                newSteerSpeed = (steerSpeed * curSteerInput.x * latestMovementDirection) * currentVelocity / maxVelocity;
-            else
-            {
-                newSteerSpeed = 0f;
-            }
+        //if (currentVelocity > 1f)
+        //{
+        //    if (Mathf.Abs(curSteerInput.x) != 0f)
+        //        newSteerSpeed = (steerSpeed * curSteerInput.x * latestMovementDirection) * currentVelocity / maxVelocity;
+        //    else
+        //    {
+        //        newSteerSpeed = 0f;
+        //    }
+        //}
+        //else if (currentVelocity <= 0.1f)
+        //{
+        //    if (Mathf.Abs(curSteerInput.x) != 0f)
+        //        newSteerSpeed = steerSpeedWhenStopped * curSteerInput.x * latestMovementDirection;
+        //    else
+        //    {
+        //        newSteerSpeed = 0f;
+        //    }
+        //}
 
-            steerSpeedVector = new Vector3(0, newSteerSpeed, 0);
+        newSteerSpeed = (steerSpeed * curSteerInput.x) * currentVelocity / maxVelocity;
 
-            Quaternion deltaRotation = Quaternion.Euler(steerSpeedVector * Time.fixedDeltaTime);
+        newYRotation = Mathf.Lerp(newYRotation, newSteerSpeed, Time.fixedDeltaTime * steerDamping);
 
-            rb.MoveRotation(rb.rotation * deltaRotation);
-        }
-        else if (currentVelocity <= 0.1f)
-        {
-            float newSteerSpeed;
+        steerSpeedVector = new Vector3(0, newYRotation, 0);
 
-            if (Mathf.Abs(curSteerInput.x) != 0f)
-                newSteerSpeed = steerSpeedWhenStopped * curSteerInput.x;
-            else
-            {
-                newSteerSpeed = 0f;
-            }
+        Quaternion deltaRotation = Quaternion.Euler(steerSpeedVector * Time.fixedDeltaTime);
 
-            steerSpeedVector = new Vector3(0, newSteerSpeed, 0);
-
-            Quaternion deltaRotation = Quaternion.Euler(steerSpeedVector * Time.fixedDeltaTime);
-
-            rb.MoveRotation(rb.rotation * deltaRotation);
-        }
+        rb.MoveRotation(rb.rotation * deltaRotation);
     }
 
     private void OnTriggerStay(Collider other)

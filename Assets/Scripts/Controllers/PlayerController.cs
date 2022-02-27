@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cinemachine;
 using TMPro;
 
 public class PlayerController : MonoBehaviour
@@ -15,8 +16,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Rigidbody rb;
 
     [Header("Player Look")]
-    [SerializeField] Transform cameraHolder;
-    [SerializeField] Transform playerTransform;
+    [SerializeField] Transform playerCamera;
+    [SerializeField] CinemachineVirtualCamera playerCinemachine;
+    [SerializeField] CinemachinePOV playerCinemachinePOV;
     [SerializeField] float minXLook;
     [SerializeField] float maxXLook;
     [SerializeField] float lookSensitivity;
@@ -27,9 +29,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform groundCheck;
     [SerializeField] float groundDistance = 0.1f;
     [SerializeField] LayerMask groundLayer;
-
-    float curCamRotX;
-    Vector2 mouseDelta;
 
     public Vector2 curMovementInput { private set; get; }
     Vector2 smoothInputVelocity;
@@ -42,11 +41,19 @@ public class PlayerController : MonoBehaviour
 
     FreezeActions freezeActionsManager;
 
+    float playerCameraSpeedX;
+    float playerCameraSpeedY;
+
     private void Start()
     {
         isSprinting = false;
 
         freezeActionsManager = FreezeActions.Instance;
+
+        playerCinemachinePOV = playerCinemachine.GetCinemachineComponent<CinemachinePOV>();
+
+        playerCameraSpeedX = playerCinemachinePOV.m_HorizontalAxis.m_MaxSpeed;
+        playerCameraSpeedY = playerCinemachinePOV.m_VerticalAxis.m_MaxSpeed;
     }
 
     private void Update()
@@ -54,14 +61,20 @@ public class PlayerController : MonoBehaviour
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundLayer, QueryTriggerInteraction.Ignore);
     }
 
-    private void LateUpdate()
-    {
-        CameraLook();
-    }
-
     private void FixedUpdate()
     {
         Move();
+
+        if (freezeActionsManager.isFrozen)
+        {
+            playerCinemachinePOV.m_HorizontalAxis.m_MaxSpeed = 0f;
+            playerCinemachinePOV.m_VerticalAxis.m_MaxSpeed = 0f;
+        }
+        else
+        {
+            playerCinemachinePOV.m_HorizontalAxis.m_MaxSpeed = playerCameraSpeedX;
+            playerCinemachinePOV.m_VerticalAxis.m_MaxSpeed = playerCameraSpeedY;
+        }
     }
 
     private void Move()
@@ -72,29 +85,11 @@ public class PlayerController : MonoBehaviour
         }
 
         float newSpeed = isSprinting ? sprintSpeed : walkSpeed;
-
-        Vector3 direction = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
+        Vector3 direction = playerCamera.forward * curMovementInput.y + playerCamera.right * curMovementInput.x;
         direction *= newSpeed;
         direction.y = rb.velocity.y;
 
         rb.velocity = direction;
-    }
-
-    private void CameraLook()
-    {
-        if (freezeActionsManager.isFrozen)
-            return;
-
-        curCamRotX += mouseDelta.y * lookSensitivity;
-        curCamRotX = Mathf.Clamp(curCamRotX, minXLook, maxXLook);
-        cameraHolder.localEulerAngles = new Vector3(-curCamRotX, 0, 0);
-
-        playerTransform.eulerAngles += new Vector3(0, mouseDelta.x * lookSensitivity, 0);
-    }
-
-    public void OnLookInput(InputAction.CallbackContext context)
-    {
-        mouseDelta = context.ReadValue<Vector2>();
     }
 
     public void OnMoveInput(InputAction.CallbackContext context)
@@ -115,14 +110,10 @@ public class PlayerController : MonoBehaviour
         if (context.phase == InputActionPhase.Started && !freezeActionsManager.isFrozen)
         {
             isSprinting = true;
-
-            Debug.Log("Sprinting");
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
             isSprinting = false;
-
-            Debug.Log("Stopped Sprinting");
         }
     }
 

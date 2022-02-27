@@ -67,13 +67,18 @@ public class DroneController : IInteractable
         rb.centerOfMass = transform.position;
 
         upForce = 0f;
+    }
 
+    private void OnEnable()
+    {
         EventSystemNew<Quest>.Subscribe(Event_Type.ACTIVATE_QUEST, ActivateQuest);
+        EventSystemNew<Quest>.Subscribe(Event_Type.QUEST_COMPLETED, QuestCompleted);
     }
 
     private void OnDisable()
     {
         EventSystemNew<Quest>.Unsubscribe(Event_Type.ACTIVATE_QUEST, ActivateQuest);
+        EventSystemNew<Quest>.Unsubscribe(Event_Type.QUEST_COMPLETED, QuestCompleted);
     }
 
     private void Update()
@@ -115,6 +120,14 @@ public class DroneController : IInteractable
             canDropSeeds = true;
         }
         else
+        {
+            canDropSeeds = false;
+        }
+    }
+
+    private void QuestCompleted(Quest _quest)
+    {
+        if (quest == _quest)
         {
             canDropSeeds = false;
         }

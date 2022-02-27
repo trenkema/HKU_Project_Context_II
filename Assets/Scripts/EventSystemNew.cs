@@ -4,7 +4,6 @@ using UnityEngine;
 
 public enum Event_Type
 {
-    PILAR_BUILD,
     QUEST_ADD_AMOUNT,
     QUEST_COMPLETED,
     ACTIVATE_QUEST,
