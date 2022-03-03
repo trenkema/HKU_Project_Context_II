@@ -7,6 +7,9 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Object Animations")]
+    [SerializeField] Animator rigAnimator;
+
     [Header("Player Movement")]
     [SerializeField] float walkSpeed;
     [SerializeField] float sprintSpeed;
@@ -123,6 +126,16 @@ public class PlayerController : MonoBehaviour
         {
             if (isGrounded)
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+    }
+
+    public void OnOpenPrimary(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            bool curHolster = rigAnimator.GetBool("holster");
+
+            rigAnimator.SetBool("holster", !curHolster);
         }
     }
 }
