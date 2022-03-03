@@ -24,10 +24,14 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] float fadeDuration;
 
+    FreezeActions freezeActionsManager;
+
     InputActionMap uiMap;
 
     private void Start()
     {
+        freezeActionsManager = FreezeActions.Instance;
+
         uiMap = playerInput.actions.FindActionMap("UI");
 
         Cursor.lockState = CursorLockMode.None;
@@ -53,6 +57,19 @@ public class GameManager : MonoBehaviour
     private void OnDisable()
     {
         EventSystemNew<bool>.Unsubscribe(Event_Type.CURSOR_ON, CursorOn);
+    }
+
+    public void OnFreezeToggle(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            bool isFrozen = freezeActionsManager.isFrozen;
+
+            EventSystemNew<bool>.RaiseEvent(Event_Type.CURSOR_ON, !isFrozen);
+            EventSystemNew<bool>.RaiseEvent(Event_Type.FREEZE_ACTIONS, !isFrozen);
+
+            playerCrosshair.SetActive(!isFrozen);
+        }
     }
 
     private void CursorOn(bool _toggleOn)
