@@ -22457,7 +22457,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1131767604}
-  - component: {fileID: 1131767605}
   m_Layer: 3
   m_Name: ObjectHolder
   m_TagString: Untagged
@@ -22480,59 +22479,6 @@ Transform:
   m_Father: {fileID: 1506134479}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1131767605
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1131767603}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8935e03361a14ec4b8edc872f76bc822, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Weight: 1
-  m_Data:
-    m_ConstrainedObject: {fileID: 1131767604}
-    m_SourceObjects:
-      m_Length: 1
-      m_Item0:
-        transform: {fileID: 762087316}
-        weight: 1
-      m_Item1:
-        transform: {fileID: 0}
-        weight: 0
-      m_Item2:
-        transform: {fileID: 0}
-        weight: 0
-      m_Item3:
-        transform: {fileID: 0}
-        weight: 0
-      m_Item4:
-        transform: {fileID: 0}
-        weight: 0
-      m_Item5:
-        transform: {fileID: 0}
-        weight: 0
-      m_Item6:
-        transform: {fileID: 0}
-        weight: 0
-      m_Item7:
-        transform: {fileID: 0}
-        weight: 0
-    m_ConstrainedPositionAxes:
-      x: 1
-      y: 1
-      z: 1
-    m_ConstrainedRotationAxes:
-      x: 1
-      y: 1
-      z: 1
-    m_MaintainPositionOffset: 1
-    m_MaintainRotationOffset: 1
-  m_SourceObjectsGUIToggle: 1
-  m_SettingsGUIToggle: 1
 --- !u!1 &1134348955
 GameObject:
   m_ObjectHideFlags: 0
@@ -27248,9 +27194,9 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
   shallowColor: {r: 0, g: 0.7725491, b: 0.62352943, a: 0.5019608}
-  deepColor: {r: 0.0034709796, g: 0.18715817, b: 0.24508172, a: 1}
+  deepColor: {r: 0.0034709796, g: 0.18715227, b: 0.24507552, a: 1}
   colorDepth: 0.65
-  horizonColor: {r: 0.08901244, g: 0.49076736, b: 0.8207547, a: 1}
+  horizonColor: {r: 0.089007534, g: 0.49076736, b: 0.8207547, a: 1}
   horizonDistance: 20
   shoreFade: 1
   shoreColor: {r: 1, g: 1, b: 1, a: 0}
@@ -27258,7 +27204,7 @@ MonoBehaviour:
   shoreBlend: 1
   shoreDepth: 0
   waveColor: {r: 0, g: 0, b: 0, a: 0}
-  underwaterColor: {r: 0.20345062, g: 0.30930704, b: 0.517647, a: 0}
+  underwaterColor: {r: 0.20344472, g: 0.3093008, b: 0.517647, a: 0}
   underwaterColorStrength: 0
   underwaterRefractionStrength: 0.099
   surfaceFoamTexture: {fileID: 2800000, guid: ab507ff7ff37d954da98b07bf0bb152e, type: 3}
@@ -35549,7 +35495,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7355372, y: 1}
+    m_SensorSize: {x: 1.776824, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -38515,8 +38461,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigAnimator: {fileID: 1506134480}
   equippedCamera: {fileID: 2010837099}
-  objectPrimary: tablet
-  objectSecondary: axe
+  objectPrimary: axe
+  objectSecondary: tablet
+  cameraToSecondaryTime: 0.15
+  cameraToPrimaryTime: 0.35
+  switchFromSecondaryTime: 2
   move: {x: 0, y: 0}
   look: {x: 0, y: 0}
   jump: 0
@@ -46853,9 +46802,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6477940958727351939, guid: 53c17c48ec8e5074baa4524bb543283a, type: 3}
-  - {fileID: -1242230322862417841, guid: 53c17c48ec8e5074baa4524bb543283a, type: 3}
-  - {fileID: -382652638819485698, guid: 53c17c48ec8e5074baa4524bb543283a, type: 3}
+  - {fileID: 2100000, guid: f74f0b5622e9f424e9c0fbd1330b63e5, type: 2}
+  - {fileID: 2100000, guid: d7da2ecccac69b64d8eed5b2ff7bdada, type: 2}
+  - {fileID: 2100000, guid: 9d549d7197879d54080a0e14623c7eeb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -53548,7 +53497,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0e510e61493389a478ffe4a74a6f6eee, type: 2}
+  - {fileID: 2100000, guid: b8d43d9f8508824489e4c4c1feebb712, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -61237,7 +61186,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 090afb85fb86560479ff07a247858aaf, type: 2}
+  - {fileID: 2100000, guid: 59f3bc4135845b042a1ef1970b491b6a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

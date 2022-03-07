@@ -52,6 +52,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "UsePrimary",
+                    "type": "Button",
+                    "id": "840e94e1-d548-407e-90eb-13d023814144",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -201,11 +209,22 @@
                 {
                     "name": "",
                     "id": "c6d2d5bf-6ca0-4f77-bb97-486044e4dff9",
-                    "path": "<Keyboard>/2",
+                    "path": "<Keyboard>/tab",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "EquipSecondary",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a9f412ec-a306-4d6c-8b0d-813a78a892e1",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "UsePrimary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Unity.Mathematics;
 using System.Collections.Generic;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
@@ -15,6 +16,11 @@ namespace StarterAssets
 		public string objectPrimary = "tablet";
 		public string objectSecondary = "axe";
 
+		public float cameraToSecondaryTime = 0.5f;
+		public float cameraToPrimaryTime = 0.5f;
+
+		public float switchFromSecondaryTime = 0.25f;
+
 		[Header("Character Input Values")]
 		public Vector2 move;
 		public Vector2 look;
@@ -22,6 +28,8 @@ namespace StarterAssets
 		public bool sprint;
 		public bool primaryEquipped;
 		public bool secondaryEquipped;
+
+		bool primaryUsed = false;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -70,11 +78,14 @@ namespace StarterAssets
 		{
 			EquipSecondaryInput(value.isPressed);
 		}
+
+		public void OnUsePrimary(InputValue value)
+        {
+			UsePrimaryInput(value.isPressed);
+        }
 #else
 	// old input sys if we do decide to have it (most likely wont)...
 #endif
-
-
 		public void MoveInput(Vector2 newMoveDirection)
 		{
 			move = newMoveDirection;
@@ -109,61 +120,107 @@ namespace StarterAssets
 			StartCoroutine(HolsterObject("holster_secondary"));
 		}
 
+		public void UsePrimaryInput(bool newUseState)
+        {
+			if (primaryEquipped && !primaryUsed)
+            {
+				if (rigAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+					return;
+
+				primaryUsed = true;
+
+				rigAnimator.SetTrigger("use_primary");
+
+				StartCoroutine(ResetPrimaryUse(rigAnimator.GetCurrentAnimatorStateInfo(1).length));
+            }
+        }
+
+		private IEnumerator ResetPrimaryUse(float resetTime)
+        {
+			yield return new WaitForSeconds(resetTime);
+
+			primaryUsed = false;
+        }
+
 		private IEnumerator HolsterObject(string holsterSlot)
         {
 			switch (holsterSlot)
             {
 				case "holster_primary":
-					primaryEquipped = !primaryEquipped;
-
-					if (secondaryEquipped)
+					if (!primaryUsed)
 					{
-						secondaryEquipped = !primaryEquipped;
-						rigAnimator.SetBool("holster_secondary", !secondaryEquipped);
+						bool switchFromSecondary = false;
 
-						do
+						primaryEquipped = !primaryEquipped;
+
+						if (secondaryEquipped)
 						{
-							yield return new WaitForEndOfFrame();
+							switchFromSecondary = true;
+
+							secondaryEquipped = !primaryEquipped;
+							rigAnimator.SetBool("holster_secondary", !secondaryEquipped);
+
+							do
+							{
+								yield return new WaitForEndOfFrame();
+							}
+							while (rigAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < cameraToPrimaryTime);
+
+							equippedCamera.SetActive(secondaryEquipped);
 						}
-						while (rigAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f);
-					}
 
-					rigAnimator.SetBool(holsterSlot, !primaryEquipped);
+						rigAnimator.SetBool(holsterSlot, !primaryEquipped);
 
-					if (primaryEquipped)
-					{
-						rigAnimator.Play("equip_" + objectPrimary);
-
-						do
+						if (primaryEquipped)
 						{
-							yield return new WaitForEndOfFrame();
-						}
-						while (rigAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f);
-					}
+							if (switchFromSecondary)
+							{
+								do
+								{
+									yield return new WaitForEndOfFrame();
+								}
+								while (rigAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < switchFromSecondaryTime);
+							}
 
-					equippedCamera.SetActive(primaryEquipped);
+							rigAnimator.Play("equip_" + objectPrimary);
+						}
+					}
 					break;
 				case "holster_secondary":
-					secondaryEquipped = !secondaryEquipped;
+					if (!primaryUsed)
+					{
+						secondaryEquipped = !secondaryEquipped;
 
-					if (primaryEquipped)
-                    {
-						primaryEquipped = !secondaryEquipped;
-						rigAnimator.SetBool("holster_primary", !primaryEquipped);
-
-						do
+						if (primaryEquipped)
 						{
-							yield return new WaitForEndOfFrame();
+							primaryEquipped = !secondaryEquipped;
+							rigAnimator.SetBool("holster_primary", !primaryEquipped);
+
+							do
+							{
+								yield return new WaitForEndOfFrame();
+							}
+							while (rigAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f);
 						}
-						while (rigAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f);
 
-						equippedCamera.SetActive(primaryEquipped);
-                    }
+						rigAnimator.SetBool(holsterSlot, !secondaryEquipped);
 
-					rigAnimator.SetBool(holsterSlot, !secondaryEquipped);
+						if (secondaryEquipped)
+						{
+							rigAnimator.Play("equip_" + objectSecondary);
 
-					if (secondaryEquipped)
-						rigAnimator.Play("equip_" + objectSecondary);
+							do
+							{
+								yield return new WaitForEndOfFrame();
+							}
+							while (rigAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < cameraToSecondaryTime);
+						}
+
+						equippedCamera.SetActive(secondaryEquipped);
+
+						EventSystemNew<bool>.RaiseEvent(Event_Type.CURSOR_ON, secondaryEquipped);
+						EventSystemNew<bool>.RaiseEvent(Event_Type.FREEZE_ACTIONS, secondaryEquipped);
+					}
 					break;
             }
 		}
