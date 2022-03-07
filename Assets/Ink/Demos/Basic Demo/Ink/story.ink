@@ -1,5 +1,10 @@
+EXTERNAL isTalking(npcName)
+VAR canTalkToBob = false
+
+~ isTalking("default")
 - I looked at Monsieur Fogg 
 *   ... and I could contain myself no longer.
+~ isTalking("missing")
     'What is the purpose of our journey, Monsieur?'
     'A wager,' he replied.
     * *     'A wager!'[] I returned.
@@ -16,4 +21,6 @@
     - -     After that, <>
 *   ... but I said nothing[] and <>
 - we passed the day in silence.
+
+
 - -> END

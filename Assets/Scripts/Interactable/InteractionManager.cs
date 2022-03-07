@@ -29,37 +29,37 @@ public class InteractionManager : MonoBehaviour
 
     private void Update()
     {
-        if (Time.time - lastCheckTime > checkRate)
-        {
-            lastCheckTime = Time.time;
+        //if (Time.time - lastCheckTime > checkRate)
+        //{
+        //    lastCheckTime = Time.time;
 
-            Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+        //    Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
+        //    RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, maxCheckDistance, layerMask, QueryTriggerInteraction.Ignore))
-            {
-                if (hit.collider.gameObject != curInteractGameObject && hit.collider.gameObject != curPickedupInteractGameObject)
-                {
-                    curInteractGameObject = hit.collider.gameObject;
-                    curInteractable = hit.collider.GetComponentInParent<IInteractable>();
+        //    if (Physics.Raycast(ray, out hit, maxCheckDistance, layerMask, QueryTriggerInteraction.Ignore))
+        //    {
+        //        if (hit.collider.gameObject != curInteractGameObject && hit.collider.gameObject != curPickedupInteractGameObject)
+        //        {
+        //            curInteractGameObject = hit.collider.gameObject;
+        //            curInteractable = hit.collider.GetComponentInParent<IInteractable>();
 
-                    promptPickupText.gameObject.SetActive(false);
-                    promptControlText.gameObject.SetActive(false);
-                    promptEnterText.gameObject.SetActive(false);
+        //            promptPickupText.gameObject.SetActive(false);
+        //            promptControlText.gameObject.SetActive(false);
+        //            promptEnterText.gameObject.SetActive(false);
 
-                    SetPromptText();
-                }
-            }
-            else
-            {
-                curInteractGameObject = null;
-                curInteractable = null;
+        //            SetPromptText();
+        //        }
+        //    }
+        //    else
+        //    {
+        //        curInteractGameObject = null;
+        //        curInteractable = null;
 
-                promptPickupText.gameObject.SetActive(false);
-                promptControlText.gameObject.SetActive(false);
-                promptEnterText.gameObject.SetActive(false);
-            }
-        }
+        //        promptPickupText.gameObject.SetActive(false);
+        //        promptControlText.gameObject.SetActive(false);
+        //        promptEnterText.gameObject.SetActive(false);
+        //    }
+        //}
     }
 
     private void SetPromptText()

@@ -34,10 +34,7 @@ public class GameManager : MonoBehaviour
 
         uiMap = playerInput.actions.FindActionMap("UI");
 
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-
-        playerCrosshair.SetActive(false);
+        //playerCrosshair.SetActive(false);
 
         interactionManager.enabled = false;
 
@@ -45,11 +42,13 @@ public class GameManager : MonoBehaviour
         fadeAnimator.SetBool("FadeIn", false);
 
         EventSystemNew<bool>.RaiseEvent(Event_Type.FREEZE_ACTIONS, true); // Freeze Movement At Start
+        EventSystemNew<bool>.RaiseEvent(Event_Type.CURSOR_ON, true);
     }
 
     private void OnEnable()
     {
-        EventSystemNew<Quest>.RaiseEvent(Event_Type.ACTIVATE_QUEST, temporaryStartQuest);
+        if (temporaryStartQuest != null)
+            EventSystemNew<Quest>.RaiseEvent(Event_Type.ACTIVATE_QUEST, temporaryStartQuest);
 
         EventSystemNew<bool>.Subscribe(Event_Type.CURSOR_ON, CursorOn);
     }

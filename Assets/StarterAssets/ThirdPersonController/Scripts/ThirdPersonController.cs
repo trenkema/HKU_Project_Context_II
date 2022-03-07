@@ -135,7 +135,8 @@ namespace StarterAssets
 			
 			JumpAndGravity();
 			GroundedCheck();
-			Move();
+			if (!freezeActionsManager.isFrozen)
+				Move();
 		}
 
 		private void LateUpdate()
