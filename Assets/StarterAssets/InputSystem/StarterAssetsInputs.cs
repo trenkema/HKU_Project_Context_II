@@ -133,7 +133,7 @@ namespace StarterAssets
 
 					rigAnimator.SetTrigger("use_primary");
 
-					StartCoroutine(ResetPrimaryUse(rigAnimator.GetCurrentAnimatorStateInfo(1).length));
+					StartCoroutine(ResetPrimaryUse(rigAnimator.GetCurrentAnimatorStateInfo(0).length));
 				}
 			}
         }
@@ -169,6 +169,9 @@ namespace StarterAssets
 
 						if (secondaryEquipped)
 						{
+							EventSystemNew<bool>.RaiseEvent(Event_Type.CURSOR_ON, false);
+							EventSystemNew<bool>.RaiseEvent(Event_Type.FREEZE_ACTIONS, false);
+
 							switchFromSecondary = true;
 
 							secondaryEquipped = !primaryEquipped;
