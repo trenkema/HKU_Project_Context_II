@@ -10,6 +10,8 @@ public class BasicInkExample : MonoBehaviour
 {
     public static event Action<Story> OnCreateStory;
 
+    public bool npcTalking = false;
+
     [SerializeField]
     private TextAsset inkJSONAsset = null;
     public Story story;
@@ -31,6 +33,8 @@ public class BasicInkExample : MonoBehaviour
     [SerializeField]
     private GameObject hud;
 
+    string onTriggerNPCName = "";
+
     void Awake()
     {
         // Remove the default message
@@ -40,16 +44,36 @@ public class BasicInkExample : MonoBehaviour
         ToggleHUD(false);
     }
 
-    public void StartStoryFromNPC(string npcName)
+    private void OnEnable()
     {
-        EventSystemNew<bool>.RaiseEvent(Event_Type.CURSOR_ON, true);
-        EventSystemNew<bool>.RaiseEvent(Event_Type.FREEZE_ACTIONS, true);
+        EventSystemNew.Subscribe(Event_Type.TALK_TO_NPC, StartStoryFromNPC);
+    }
 
-        story.ChoosePathString(npcName);
+    private void OnDisable()
+    {
+        EventSystemNew.Unsubscribe(Event_Type.TALK_TO_NPC, StartStoryFromNPC);
+    }
 
-        ToggleHUD(true);
+    public void OnTriggerNPC(string npcName)
+    {
+        onTriggerNPCName = npcName;
+    }
 
-        RefreshView();
+    public void StartStoryFromNPC()
+    {
+        if (onTriggerNPCName != string.Empty && !npcTalking)
+        {
+            npcTalking = true;
+
+            EventSystemNew<bool>.RaiseEvent(Event_Type.CURSOR_ON, true);
+            EventSystemNew<bool>.RaiseEvent(Event_Type.FREEZE_ACTIONS, true);
+
+            story.ChoosePathString(onTriggerNPCName);
+
+            ToggleHUD(true);
+
+            RefreshView();
+        }
     }
 
     void ToggleHUD(bool isActive)
@@ -121,6 +145,8 @@ public class BasicInkExample : MonoBehaviour
 
                 EventSystemNew<bool>.RaiseEvent(Event_Type.CURSOR_ON, false);
                 EventSystemNew<bool>.RaiseEvent(Event_Type.FREEZE_ACTIONS, false);
+
+                npcTalking = false;
             });
 
             //Button choice = CreateChoiceView("End of story.\nRestart?");

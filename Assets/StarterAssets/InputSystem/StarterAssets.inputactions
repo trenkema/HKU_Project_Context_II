@@ -60,6 +60,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "TalkToNPC",
+                    "type": "Button",
+                    "id": "6f018094-cb9a-4e28-8b50-c10b87f15859",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -225,6 +233,17 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "UsePrimary",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e9173145-2f58-4890-b302-809b6797dad6",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "TalkToNPC",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

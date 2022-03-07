@@ -135,8 +135,7 @@ namespace StarterAssets
 			
 			JumpAndGravity();
 			GroundedCheck();
-			if (!freezeActionsManager.isFrozen)
-				Move();
+			Move();
 		}
 
 		private void LateUpdate()
@@ -185,8 +184,13 @@ namespace StarterAssets
 
 		private void Move()
 		{
+			float targetSpeed = 0f;
+
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+			if (!freezeActionsManager.isFrozen)
+				targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+			else
+				targetSpeed = 0f;
 
 			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
@@ -221,7 +225,7 @@ namespace StarterAssets
 
 			// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
 			// if there is a move input rotate player when the player is moving
-			if (_input.move != Vector2.zero)
+			if (_input.move != Vector2.zero && !freezeActionsManager.isFrozen)
 			{
 				_targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
 				float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, RotationSmoothTime);
@@ -265,7 +269,7 @@ namespace StarterAssets
 				}
 
 				// Jump
-				if (_input.jump && _jumpTimeoutDelta <= 0.0f)
+				if (_input.jump && _jumpTimeoutDelta <= 0.0f && !freezeActionsManager.isFrozen)
 				{
 					// the square root of H * -2 * G = how much velocity needed to reach desired height
 					_verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);

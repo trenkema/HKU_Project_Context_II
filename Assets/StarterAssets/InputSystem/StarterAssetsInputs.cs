@@ -45,95 +45,97 @@ namespace StarterAssets
         {
 			rigAnimator.enabled = false;
         }
-
-        public void OnMove(InputValue value)
-		{
-			MoveInput(value.Get<Vector2>());
-		}
-
-		public void OnLook(InputValue value)
-		{
-			if(cursorInputForLook)
-			{
-				LookInput(value.Get<Vector2>());
-			}
-		}
-
-		public void OnJump(InputValue value)
-		{
-			JumpInput(value.isPressed);
-		}
-
-		public void OnSprint(InputValue value)
-		{
-			SprintInput(value.isPressed);
-		}
-
-		public void OnEquipPrimary(InputValue value)
-        {
-			EquipPrimaryInput(value.isPressed);
-        }
-
-		public void OnEquipSecondary(InputValue value)
-		{
-			EquipSecondaryInput(value.isPressed);
-		}
-
-		public void OnUsePrimary(InputValue value)
-        {
-			UsePrimaryInput(value.isPressed);
-        }
 #else
 	// old input sys if we do decide to have it (most likely wont)...
 #endif
-		public void MoveInput(Vector2 newMoveDirection)
+		public void OnMoveInput(InputAction.CallbackContext context)
 		{
-			move = newMoveDirection;
+			move = context.ReadValue<Vector2>();
+			//move = newMoveDirection;
 		} 
 
-		public void LookInput(Vector2 newLookDirection)
+		public void OnLookInput(InputAction.CallbackContext context)
 		{
-			look = newLookDirection;
+			look = context.ReadValue<Vector2>();
+			//look = newLookDirection;
 		}
 
-		public void JumpInput(bool newJumpState)
+		public void OnJumpInput(InputAction.CallbackContext context)
 		{
-			jump = newJumpState;
-		}
-
-		public void SprintInput(bool newSprintState)
-		{
-			sprint = newSprintState;
-		}
-
-		public void EquipPrimaryInput(bool newEquipPrimaryState)
-        {
-			rigAnimator.enabled = true;
-
-			StartCoroutine(HolsterObject("holster_primary"));
-		}
-
-		public void EquipSecondaryInput(bool newEquipSecondaryState)
-        {
-			rigAnimator.enabled = true;
-
-			StartCoroutine(HolsterObject("holster_secondary"));
-		}
-
-		public void UsePrimaryInput(bool newUseState)
-        {
-			if (primaryEquipped && !primaryUsed)
+			if (context.phase == InputActionPhase.Started)
             {
-				if (rigAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
-					return;
-
-				primaryUsed = true;
-
-				rigAnimator.SetTrigger("use_primary");
-
-				StartCoroutine(ResetPrimaryUse(rigAnimator.GetCurrentAnimatorStateInfo(1).length));
+				jump = true;
             }
+			else if (context.phase == InputActionPhase.Canceled)
+			{
+				jump = false;
+            }
+
+			//jump = newJumpState;
+		}
+
+		public void OnSprintInput(InputAction.CallbackContext context)
+		{
+			if (context.phase == InputActionPhase.Performed)
+			{
+				sprint = true;
+			}
+			else if (context.phase == InputActionPhase.Canceled)
+            {
+				sprint = false;
+            }
+
+			//sprint = newSprintState;
+		}
+
+		public void OnEquipPrimaryInput(InputAction.CallbackContext context)
+        {
+			if (context.phase == InputActionPhase.Started)
+            {
+				rigAnimator.enabled = true;
+
+				StartCoroutine(HolsterObject("holster_primary"));
+			}
+		}
+
+		public void OnEquipSecondaryInput(InputAction.CallbackContext context)
+        {
+			if (context.phase == InputActionPhase.Started)
+			{
+				rigAnimator.enabled = true;
+
+				StartCoroutine(HolsterObject("holster_secondary"));
+			}
+		}
+
+		public void OnUsePrimaryInput(InputAction.CallbackContext context)
+        {
+			if (context.phase == InputActionPhase.Started)
+			{
+				if (primaryEquipped && !primaryUsed)
+				{
+					if (rigAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+						return;
+
+					primaryUsed = true;
+
+					rigAnimator.SetTrigger("use_primary");
+
+					StartCoroutine(ResetPrimaryUse(rigAnimator.GetCurrentAnimatorStateInfo(1).length));
+				}
+			}
         }
+
+		public void OnTalkToNPCInput(InputAction.CallbackContext context)
+		{
+			if (context.phase == InputActionPhase.Started)
+			{
+				if (!primaryUsed)
+				{
+					EventSystemNew.RaiseEvent(Event_Type.TALK_TO_NPC);
+				}
+			}
+		}
 
 		private IEnumerator ResetPrimaryUse(float resetTime)
         {

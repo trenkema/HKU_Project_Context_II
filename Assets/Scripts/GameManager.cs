@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
         EventSystemNew<bool>.RaiseEvent(Event_Type.CURSOR_ON, false);
         EventSystemNew<bool>.RaiseEvent(Event_Type.FREEZE_ACTIONS, false);
 
-        playerCrosshair.SetActive(true);
+        //playerCrosshair.SetActive(true);
 
         playerInput.SwitchCurrentActionMap("PlayerControls");
 

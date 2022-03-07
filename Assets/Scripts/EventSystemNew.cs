@@ -8,7 +8,8 @@ public enum Event_Type
     QUEST_COMPLETED,
     ACTIVATE_QUEST,
     CURSOR_ON,
-    FREEZE_ACTIONS
+    FREEZE_ACTIONS,
+    TALK_TO_NPC
 }
 
 public static class EventSystemNew

@@ -21,7 +21,8 @@ public class QuestManager : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI activeTabText;
     [SerializeField] TextMeshProUGUI doneTabText;
-    [SerializeField] GameObject noQuestsText;
+    [SerializeField] GameObject noActiveQuestsText;
+    [SerializeField] GameObject noCompletedQuestsText;
 
     [SerializeField] GameObject forceQuestRow;
     [SerializeField] TMP_InputField forceQuestInputField;
@@ -88,9 +89,9 @@ public class QuestManager : MonoBehaviour
                     doneTabText.color = activeTextColor;
 
                     if (completedQuests.Count == 0)
-                        noQuestsText.SetActive(true);
+                        noActiveQuestsText.SetActive(true);
                     else
-                        noQuestsText.SetActive(false);
+                        noActiveQuestsText.SetActive(false);
                 }
                 else
                 {
@@ -99,11 +100,11 @@ public class QuestManager : MonoBehaviour
 
                     if (activeQuests.Count == 0)
                     {
-                        noQuestsText.SetActive(true);
+                        noActiveQuestsText.SetActive(true);
                     }
                     else
                     {
-                        noQuestsText.SetActive(false);
+                        noActiveQuestsText.SetActive(false);
                     }
                 }
 
@@ -128,9 +129,9 @@ public class QuestManager : MonoBehaviour
                 completedQuestsScrollArea.SetActive(false);
 
                 if (activeQuests.Count == 0)
-                    noQuestsText.SetActive(true);
+                    noActiveQuestsText.SetActive(true);
                 else
-                    noQuestsText.SetActive(false);
+                    noActiveQuestsText.SetActive(false);
             }
 
             EventSystemNew<bool>.RaiseEvent(Event_Type.CURSOR_ON, questWindow.activeInHierarchy);
@@ -188,7 +189,7 @@ public class QuestManager : MonoBehaviour
             questObjectiveItem.UpdateAmount(_quest.questCurrentAmount, _quest.questMaxAmount);
 
             if (activeQuestsScrollArea.activeInHierarchy)
-                noQuestsText.SetActive(false);
+                noActiveQuestsText.SetActive(false);
 
             foreach (var quest in quests)
             {
@@ -225,7 +226,7 @@ public class QuestManager : MonoBehaviour
             questItem.UpdateAmount(_quest.questMaxAmount, _quest.questMaxAmount);
 
             if (completedQuestsScrollArea.activeInHierarchy)
-                noQuestsText.SetActive(false);
+                noActiveQuestsText.SetActive(false);
 
             foreach (var quest in quests)
             {
