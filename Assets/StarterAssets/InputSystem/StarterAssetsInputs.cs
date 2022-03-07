@@ -21,6 +21,8 @@ namespace StarterAssets
 
 		public float switchFromSecondaryTime = 0.25f;
 
+		public GameObject mapCamera;
+
 		[Header("Character Input Values")]
 		public Vector2 move;
 		public Vector2 look;
@@ -44,6 +46,16 @@ namespace StarterAssets
         private void Start()
         {
 			rigAnimator.enabled = false;
+
+			// Load Map Texture
+			mapCamera.SetActive(true);
+
+			Invoke("DisableMapCamera", 0.25f);
+        }
+
+		private void DisableMapCamera()
+        {
+			mapCamera.SetActive(false);
         }
 #else
 	// old input sys if we do decide to have it (most likely wont)...
@@ -206,6 +218,8 @@ namespace StarterAssets
 						}
 
 						rigAnimator.SetBool(holsterSlot, !secondaryEquipped);
+
+						mapCamera.SetActive(secondaryEquipped);
 
 						if (secondaryEquipped)
 						{
