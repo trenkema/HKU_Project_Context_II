@@ -131,6 +131,8 @@ namespace StarterAssets
 
 					primaryUsed = true;
 
+					EventSystemNew<bool>.RaiseEvent(Event_Type.FREEZE_POSITION, true);
+
 					rigAnimator.SetTrigger("use_primary");
 
 					StartCoroutine(ResetPrimaryUse(rigAnimator.GetCurrentAnimatorStateInfo(0).length));
@@ -154,7 +156,9 @@ namespace StarterAssets
 			yield return new WaitForSeconds(resetTime);
 
 			primaryUsed = false;
-        }
+
+			EventSystemNew<bool>.RaiseEvent(Event_Type.FREEZE_POSITION, false);
+		}
 
 		private IEnumerator HolsterObject(string holsterSlot)
         {

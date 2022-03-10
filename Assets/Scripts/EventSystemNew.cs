@@ -9,6 +9,7 @@ public enum Event_Type
     ACTIVATE_QUEST,
     CURSOR_ON,
     FREEZE_ACTIONS,
+    FREEZE_POSITION,
     TALK_TO_NPC
 }
 

@@ -187,7 +187,7 @@ namespace StarterAssets
 			float targetSpeed = 0f;
 
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			if (!freezeActionsManager.isFrozen)
+			if (!freezeActionsManager.isFrozen && !freezeActionsManager.isPositionFrozen)
 				targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 			else
 				targetSpeed = 0f;

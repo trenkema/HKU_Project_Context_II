@@ -6,6 +6,11 @@ using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] GameObject mainMenuCamera;
+
+    [SerializeField] GameObject postProcessingMainMenu;
+    [SerializeField] GameObject postProcessingInGame;
+
     [SerializeField] Quest temporaryStartQuest;
 
     [SerializeField] GameObject playerCrosshair;
@@ -90,6 +95,8 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
+        mainMenuCamera.SetActive(false);
+
         mainMenuAnimator.SetBool("FadeOut", true);
 
         inGameUIAnimator.SetBool("FadeIn", true);
@@ -111,6 +118,9 @@ public class GameManager : MonoBehaviour
         interactionManager.enabled = true;
 
         mainMenuHUD.SetActive(false);
+
+        postProcessingMainMenu.SetActive(false);
+        postProcessingInGame.SetActive(true);
     }
     
     public void QuitGame()

@@ -23,11 +23,9 @@ public class BasicInkExample : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI textPrefab = null;
     [SerializeField]
-    private Button buttonPrefab = null;
+    private GameObject buttonPrefab = null;
     [SerializeField]
     private TextMeshProUGUI npcName = null;
-    [SerializeField]
-    private Image npcImage = null;
     [SerializeField]
     private npcScriptableObject[] npcs;
     [SerializeField]
@@ -187,7 +185,8 @@ public class BasicInkExample : MonoBehaviour
     Button CreateChoiceView(string text)
     {
         // Creates the button from a prefab
-        Button choice = Instantiate(buttonPrefab) as Button;
+        GameObject buttonParent = Instantiate(buttonPrefab);
+        Button choice = buttonParent.GetComponentInChildren<Button>();
         choice.transform.SetParent(choiceParent.transform, false);
 
         // Gets the text from the button prefab
@@ -225,7 +224,6 @@ public class BasicInkExample : MonoBehaviour
             if (npc.npcName == name)
             {
                 npcName.text = npc.npcName;
-                npcImage.sprite = npc.npcSprite;
                 hasFoundName = true;
                 Debug.Log(name + " is talking");
             }
