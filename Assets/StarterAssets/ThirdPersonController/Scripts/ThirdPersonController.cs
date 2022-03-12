@@ -14,6 +14,8 @@ namespace StarterAssets
 #endif
 	public class ThirdPersonController : MonoBehaviour
 	{
+		public bool isInNPCRange = false;
+
 		[Header("Player")]
 		[Tooltip("Move speed of the character in m/s")]
 		public float MoveSpeed = 2.0f;
@@ -54,6 +56,12 @@ namespace StarterAssets
 		public float TopClamp = 70.0f;
 		[Tooltip("How far in degrees can you move the camera down")]
 		public float BottomClamp = -30.0f;
+
+		[Tooltip("How far in degrees can you move the camera up")]
+		public float TopClampNPC = 70.0f;
+		[Tooltip("How far in degrees can you move the camera down")]
+		public float BottomClampNPC = -30.0f;
+
 		[Tooltip("Additional degress to override the camera. Useful for fine tuning camera position when locked")]
 		public float CameraAngleOverride = 0.0f;
 		[Tooltip("For locking the camera position on all axis")]
@@ -176,7 +184,10 @@ namespace StarterAssets
 
 			// clamp our rotations so our values are limited 360 degrees
 			_cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
-			_cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+			if (!isInNPCRange)
+				_cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+			else
+				_cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClampNPC, TopClampNPC);
 
 			// Cinemachine will follow this target
 			CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride, _cinemachineTargetYaw, 0.0f);

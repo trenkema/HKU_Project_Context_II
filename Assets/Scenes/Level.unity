@@ -348,7 +348,7 @@ MonoBehaviour:
   ShoulderOffset: {x: 1, y: 1.75, z: 0}
   VerticalArmLength: 0
   CameraSide: 0.6
-  CameraDistance: 11
+  CameraDistance: 15
   CameraCollisionFilter:
     serializedVersion: 2
     m_Bits: 1
@@ -11160,7 +11160,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 7.5, y: 2, z: 7.5}
+  m_Size: {x: 7, y: 2, z: 7}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!65 &492544408
 BoxCollider:
@@ -11204,6 +11204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbbd8abd39ee44a4e897531088dc2b6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aids: {fileID: 1927875536}
   waitDelay: 0.15
   playerCamera: {fileID: 1800836887}
   playerLookAt: {fileID: 1230658680}
@@ -31916,6 +31917,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInNPCRange: 0
   MoveSpeed: 5
   SprintSpeed: 11
   RotationSmoothTime: 0.15
@@ -31933,6 +31935,8 @@ MonoBehaviour:
   CinemachineCameraTarget: {fileID: 1069274108}
   TopClamp: 70
   BottomClamp: -30
+  TopClampNPC: 70
+  BottomClampNPC: -30
   CameraAngleOverride: 0
   LockCameraPosition: 0
   sensitivity: 0.5
@@ -35248,9 +35252,9 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
   shallowColor: {r: 0, g: 0.7725491, b: 0.62352943, a: 0.5019608}
-  deepColor: {r: 0.0034709796, g: 0.18711853, b: 0.24503991, a: 1}
+  deepColor: {r: 0.0034709796, g: 0.187118, b: 0.24503934, a: 1}
   colorDepth: 0.65
-  horizonColor: {r: 0.08897961, g: 0.49076736, b: 0.8207547, a: 1}
+  horizonColor: {r: 0.08897916, g: 0.49076736, b: 0.8207547, a: 1}
   horizonDistance: 20
   shoreFade: 1
   shoreColor: {r: 1, g: 1, b: 1, a: 0}
@@ -35258,7 +35262,7 @@ MonoBehaviour:
   shoreBlend: 1
   shoreDepth: 0
   waveColor: {r: 0, g: 0, b: 0, a: 0}
-  underwaterColor: {r: 0.20341098, g: 0.3092652, b: 0.517647, a: 0}
+  underwaterColor: {r: 0.20341045, g: 0.30926463, b: 0.517647, a: 0}
   underwaterColorStrength: 0
   underwaterRefractionStrength: 0.099
   surfaceFoamTexture: {fileID: 2800000, guid: ab507ff7ff37d954da98b07bf0bb152e, type: 3}
@@ -35966,6 +35970,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbbd8abd39ee44a4e897531088dc2b6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aids: {fileID: 0}
   waitDelay: 0.15
   playerCamera: {fileID: 1800836887}
   playerLookAt: {fileID: 0}
@@ -44542,8 +44547,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1800836885}
-  m_LocalRotation: {x: -0.3604112, y: -0.2945125, z: 0.12106566, w: -0.87676066}
-  m_LocalPosition: {x: -5.591368, y: 10.537876, z: -7.383623}
+  m_LocalRotation: {x: -0.33844352, y: -0.29994366, z: 0.1147716, w: -0.88448703}
+  m_LocalPosition: {x: -7.6816053, y: 12.6971035, z: -10.023451}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 7767985}
@@ -49358,6 +49363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInNPCRange: 0
   MoveSpeed: 5
   SprintSpeed: 11
   RotationSmoothTime: 0.15
@@ -49375,6 +49381,8 @@ MonoBehaviour:
   CinemachineCameraTarget: {fileID: 1191983270}
   TopClamp: 60
   BottomClamp: -30
+  TopClampNPC: 40
+  BottomClampNPC: 0
   CameraAngleOverride: 0
   LockCameraPosition: 0
   sensitivity: 0.5

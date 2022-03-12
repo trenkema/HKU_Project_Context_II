@@ -4,9 +4,12 @@ using UnityEngine;
 using Cinemachine;
 using Ink.Runtime;
 using UnityEngine.InputSystem;
+using StarterAssets;
 
 public class NPC : MonoBehaviour
 {
+    [SerializeField] ThirdPersonController aids;
+
     [SerializeField] float waitDelay = 0.15f;
 
     [SerializeField] CinemachineVirtualCamera playerCamera;
@@ -83,6 +86,8 @@ public class NPC : MonoBehaviour
             player = other.transform;
 
             zoom = true;
+
+            aids.isInNPCRange = true;
         }
     }
 
@@ -119,6 +124,8 @@ public class NPC : MonoBehaviour
             playerInTrigger = false;
 
             zoom = false;
+
+            aids.isInNPCRange = false;
         }
     }
 
