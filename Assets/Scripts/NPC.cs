@@ -3,10 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using Ink.Runtime;
+using UnityEngine.InputSystem;
 
 public class NPC : MonoBehaviour
 {
-    [SerializeField] CinemachineVirtualCamera npcZoomCamera;
+    [SerializeField] float waitDelay = 0.15f;
+
+    [SerializeField] CinemachineVirtualCamera playerCamera;
+
+    //[SerializeField] CinemachineVirtualCamera npcZoomCamera;
+
+    [SerializeField] Transform playerLookAt;
+
+    [SerializeField] Transform playerRootTransform;
 
     [SerializeField] Transform focusRootTransform;
 
@@ -19,8 +28,34 @@ public class NPC : MonoBehaviour
     bool playerInTrigger = false;
 
     bool hasTalked = false;
+    bool zoom = false;
 
-    Transform player;
+    [SerializeField] float switchSpeed = 5f;
+
+    [SerializeField] Transform player;
+
+    [SerializeField] Transform lookAtPlayerParent;
+    [SerializeField] Transform lookAtNPCParent;
+
+    //private void Start()
+    //{
+    //    npcZoomCamera.Priority = playerCamera.Priority - 1;
+    //    npcZoomCamera.gameObject.SetActive(true);
+    //}
+
+    private void Update()
+    {
+        if (!zoom)
+        {
+            playerLookAt.SetParent(lookAtPlayerParent, true);
+            playerLookAt.position = Vector3.Lerp(playerLookAt.position, playerRootTransform.position, switchSpeed * Time.deltaTime);
+        }
+        else
+        {
+            playerLookAt.SetParent(lookAtNPCParent, true);
+            playerLookAt.position = Vector3.Lerp(playerLookAt.position, focusRootTransform.position, switchSpeed * Time.deltaTime);
+        }
+    }
 
     private void FixedUpdate()
     {
@@ -36,8 +71,8 @@ public class NPC : MonoBehaviour
     {
         if (other.CompareTag("Player") && !inkManager.npcTalking)
         {
-            npcZoomCamera.LookAt = focusRootTransform;
-            npcZoomCamera.gameObject.SetActive(true);
+            //npcZoomCamera.LookAt = focusRootTransform;
+            //npcZoomCamera.Priority = playerCamera.Priority + 1;
 
             talkText.SetActive(true);
 
@@ -46,6 +81,8 @@ public class NPC : MonoBehaviour
             playerInTrigger = true;
 
             player = other.transform;
+
+            zoom = true;
         }
     }
 
@@ -63,7 +100,7 @@ public class NPC : MonoBehaviour
 
             talkText.SetActive(true);
 
-            npcZoomCamera.gameObject.SetActive(false);
+            //npcZoomCamera.Priority = playerCamera.Priority - 1;
         }
     }
 
@@ -71,7 +108,7 @@ public class NPC : MonoBehaviour
     {
         if (other.CompareTag("Player") && !inkManager.npcTalking && !hasTalked)
         {
-            npcZoomCamera.gameObject.SetActive(false);
+            //npcZoomCamera.Priority = playerCamera.Priority - 1;
 
             inkManager.npcTalking = false;
 
@@ -80,6 +117,37 @@ public class NPC : MonoBehaviour
             inkManager.OnTriggerNPC(string.Empty);
 
             playerInTrigger = false;
+
+            zoom = false;
+        }
+    }
+
+    public void ZoomNPC(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            //npcZoomCamera.LookAt = focusRootTransform;
+            //npcZoomCamera.Priority = playerCamera.Priority + 1;
+
+            talkText.SetActive(true);
+
+            inkManager.OnTriggerNPC(npc.npcName);
+
+            playerInTrigger = true;
+        }
+    }
+
+    public void UnNPC(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            //npcZoomCamera.Priority = playerCamera.Priority - 1;
+
+            inkManager.npcTalking = false;
+
+            talkText.SetActive(false);
+
+            inkManager.OnTriggerNPC(string.Empty);
         }
     }
 }

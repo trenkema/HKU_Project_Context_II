@@ -63,13 +63,11 @@ namespace StarterAssets
 		public void OnMoveInput(InputAction.CallbackContext context)
 		{
 			move = context.ReadValue<Vector2>();
-			//move = newMoveDirection;
 		} 
 
 		public void OnLookInput(InputAction.CallbackContext context)
 		{
 			look = context.ReadValue<Vector2>();
-			//look = newLookDirection;
 		}
 
 		public void OnJumpInput(InputAction.CallbackContext context)
@@ -82,8 +80,6 @@ namespace StarterAssets
 			{
 				jump = false;
             }
-
-			//jump = newJumpState;
 		}
 
 		public void OnSprintInput(InputAction.CallbackContext context)
@@ -96,8 +92,6 @@ namespace StarterAssets
             {
 				sprint = false;
             }
-
-			//sprint = newSprintState;
 		}
 
 		public void OnEquipPrimaryInput(InputAction.CallbackContext context)

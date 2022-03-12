@@ -15,7 +15,8 @@ public class TextFaceCamera : MonoBehaviour
     {
         if (cam != null)
         {
-            transform.LookAt(cam.transform);
+            Vector3 targetPosition = new Vector3(cam.transform.position.x, transform.position.y, cam.transform.position.z);
+            transform.LookAt(targetPosition);
             transform.Rotate(Vector3.up * 180);
         }
         else

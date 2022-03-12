@@ -68,6 +68,22 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Test1",
+                    "type": "Button",
+                    "id": "dc73b2d0-dc37-4d9a-b820-5cfe35658b46",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Test2",
+                    "type": "Button",
+                    "id": "82625af3-7601-41f4-9a19-73c849382247",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -244,6 +260,28 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "TalkToNPC",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8ffc00e6-75e6-451b-87bf-aa4975330a79",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Test1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "094aa173-d838-4ac8-adf6-c4ddd923da48",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Test2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
