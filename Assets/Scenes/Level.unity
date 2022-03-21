@@ -24266,7 +24266,7 @@ MonoBehaviour:
   mainMenuCamera: {fileID: 2090418740}
   postProcessingMainMenu: {fileID: 1175097725}
   postProcessingInGame: {fileID: 248783509}
-  temporaryStartQuest: {fileID: 0}
+  temporaryStartQuest: {fileID: 11400000, guid: 0faa6e3f0fe90224582f4a2c48966ffa, type: 2}
   playerCrosshair: {fileID: 0}
   interactionManager: {fileID: 657628731}
   mainMenuHUD: {fileID: 1296744762}
@@ -26478,6 +26478,10 @@ PrefabInstance:
       propertyPath: m_VersionIndex
       value: 191
       objectReference: {fileID: 0}
+    - target: {fileID: 5421413195861024413, guid: 4de6e026ab39fc54b919c3071a9350fd, type: 3}
+      propertyPath: quest
+      value: 
+      objectReference: {fileID: 11400000, guid: 0faa6e3f0fe90224582f4a2c48966ffa, type: 2}
     - target: {fileID: 5421413195861024413, guid: 4de6e026ab39fc54b919c3071a9350fd, type: 3}
       propertyPath: treeLog
       value: 
@@ -37174,6 +37178,10 @@ PrefabInstance:
       value: 194
       objectReference: {fileID: 0}
     - target: {fileID: 5421413195861024413, guid: 4de6e026ab39fc54b919c3071a9350fd, type: 3}
+      propertyPath: quest
+      value: 
+      objectReference: {fileID: 11400000, guid: 0faa6e3f0fe90224582f4a2c48966ffa, type: 2}
+    - target: {fileID: 5421413195861024413, guid: 4de6e026ab39fc54b919c3071a9350fd, type: 3}
       propertyPath: treeLog
       value: 
       objectReference: {fileID: 4601635811631650548, guid: a826367ff0569d245b6e22311ef66a77, type: 3}
@@ -46136,9 +46144,9 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   colorGradientTexture: {fileID: 0}
   shallowColor: {r: 0, g: 0.7725491, b: 0.62352943, a: 0.5019608}
-  deepColor: {r: 0.0034709796, g: 0.1871089, b: 0.24502978, a: 1}
+  deepColor: {r: 0.0034709796, g: 0.1871086, b: 0.24502945, a: 1}
   colorDepth: 0.65
-  horizonColor: {r: 0.08897164, g: 0.49076736, b: 0.8207547, a: 1}
+  horizonColor: {r: 0.0889714, g: 0.49076736, b: 0.8207547, a: 1}
   horizonDistance: 20
   shoreFade: 1
   shoreColor: {r: 1, g: 1, b: 1, a: 0}
@@ -46146,7 +46154,7 @@ MonoBehaviour:
   shoreBlend: 1
   shoreDepth: 0
   waveColor: {r: 0, g: 0, b: 0, a: 0}
-  underwaterColor: {r: 0.20340136, g: 0.30925506, b: 0.517647, a: 0}
+  underwaterColor: {r: 0.20340106, g: 0.30925474, b: 0.517647, a: 0}
   underwaterColorStrength: 0
   underwaterRefractionStrength: 0.099
   surfaceFoamTexture: {fileID: 2800000, guid: ab507ff7ff37d954da98b07bf0bb152e, type: 3}
@@ -48277,6 +48285,10 @@ PrefabInstance:
       propertyPath: m_VersionIndex
       value: 197
       objectReference: {fileID: 0}
+    - target: {fileID: 5421413195861024413, guid: 4de6e026ab39fc54b919c3071a9350fd, type: 3}
+      propertyPath: quest
+      value: 
+      objectReference: {fileID: 11400000, guid: 0faa6e3f0fe90224582f4a2c48966ffa, type: 2}
     - target: {fileID: 5421413195861024413, guid: 4de6e026ab39fc54b919c3071a9350fd, type: 3}
       propertyPath: treeLog
       value: 
@@ -72562,7 +72574,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!95 &1566969234811338686
 Animator:
   serializedVersion: 3

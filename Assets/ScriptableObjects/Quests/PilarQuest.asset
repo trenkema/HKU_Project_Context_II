@@ -13,11 +13,9 @@ MonoBehaviour:
   m_Name: PilarQuest
   m_EditorClassIdentifier: 
   questName: Hit Pilars
+  questDescription: There need to be a few pilars to be able to build the Ecoducts
+    foundation!
   questObjective: pilars hit
-  questObjectiveText: {fileID: 0}
-  questDescription: Hit all pilars to build the Ecoduct!
-  questID: 0
   questCurrentAmount: 0
   questMaxAmount: 4
-  isActive: 0
-  isCompleted: 0
+  questID: 0

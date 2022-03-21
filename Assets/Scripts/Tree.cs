@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Tree : MonoBehaviour, ITreeDamageable
 {
+    [SerializeField] Quest quest;
+
     [SerializeField] GameObject treeToDestroy;
 
     [SerializeField] int minHealth, maxHealth;
@@ -34,6 +36,8 @@ public class Tree : MonoBehaviour, ITreeDamageable
 
     private void OnDead()
     {
+        EventSystemNew<Quest, int>.RaiseEvent(Event_Type.QUEST_ADD_AMOUNT, quest, 1);
+
         Instantiate(vfxTreeDestroyed, transform.position, transform.rotation);
 
         Vector3 treeLogOffset = Vector3.up * treeLogUpOffset;
