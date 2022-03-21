@@ -3,19 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
+using StarterAssets;
 using TMPro;
 
-public class BoatController : IInteractable
+public class BoatController : MonoBehaviour //: IInteractable
 {
     [Header("References")]
     [SerializeField] PlayerInput playerInput;
 
     [SerializeField] RobotArmController robotArmController;
 
+    [SerializeField] Transform playerControlPoint;
+
     [SerializeField] Transform robotArmLookAt;
     [SerializeField] Transform boatLookAt;
 
     [SerializeField] CinemachineFreeLook cinemachineCamera;
+
+    [SerializeField] GameObject enterDeckText;
+    [SerializeField] GameObject controlText;
 
     [SerializeField] GameObject controlArmText;
     [SerializeField] GameObject exitArmControlText;
@@ -42,7 +48,7 @@ public class BoatController : IInteractable
     Vector2 curSteerInput = Vector2.zero;
     Vector2 curMovementInput = Vector2.zero;
 
-    Rigidbody rb;
+    [SerializeField] Rigidbody rb;
 
     bool isControlling = false;
 
@@ -51,6 +57,8 @@ public class BoatController : IInteractable
     bool isMoving = false;
 
     bool isOnBoat = false;
+
+    bool isNearBoat = false;
 
     bool controllingArm = false;
 
@@ -66,11 +74,21 @@ public class BoatController : IInteractable
 
     float newYRotation = 0f;
 
+    CharacterController playerController;
+
+    private void OnEnable()
+    {
+        EventSystemNew<bool>.Subscribe(Event_Type.PLAYER_NEAR_BOAT, IsPlayerNearBoat);
+    }
+
+    private void OnDisable()
+    {
+        EventSystemNew<bool>.Unsubscribe(Event_Type.PLAYER_NEAR_BOAT, IsPlayerNearBoat);
+    }
+
     private void Awake()
     {
         robotArmMap = playerInput.actions.FindActionMap("RobotArmControls");
-
-        rb = GetComponent<Rigidbody>();
 
         rb.centerOfMass = transform.position;
 
@@ -85,10 +103,39 @@ public class BoatController : IInteractable
     private void Start()
     {
         freezeActionsManager = FreezeActions.Instance;
+
+        playerController = player.GetComponent<CharacterController>();
+    }
+
+    private void Update()
+    {
+        if (isNearBoat && !isControlling && !isOnBoat)
+        {
+            enterDeckText.SetActive(true);
+        }
+        else
+        {
+            enterDeckText.SetActive(false);
+        }
+
+        if (!isControlling && isOnBoat)
+        {
+            controlText.SetActive(true);
+        }
+        else
+        {
+            controlText.SetActive(false);
+        }
     }
 
     private void FixedUpdate()
     {
+        if (isControlling)
+        {
+            player.transform.position = playerControlPoint.position;
+            player.transform.rotation = playerControlPoint.rotation;
+        }
+
         if (isMoving && !freezeActionsManager.isFrozen)
         {
             currentVelocity = Mathf.SmoothDamp(currentVelocity, maxVelocity * latestMovementDirection, ref smoothDampVelocity, accelerateTime);
@@ -107,28 +154,108 @@ public class BoatController : IInteractable
         RotateBoat();
     }
 
+    private void IsPlayerNearBoat(bool _isNearBoat)
+    {
+        isNearBoat = _isNearBoat;
+    }
+
     public void EnterDeck(InputAction.CallbackContext _context)
     {
-        if (_context.performed && !freezeActionsManager.isFrozen)
+        if (_context.performed && !freezeActionsManager.isFrozen && !freezeActionsManager.isPositionFrozen)
         {
-            if (isControlling && !controllingArm)
+            if (!isOnBoat && isNearBoat)
             {
-                isControlling = !isControlling;
+                enterDeckText.SetActive(false);
 
                 playerInput.SwitchCurrentActionMap("PlayerControls");
 
                 player.transform.SetParent(null);
 
+                playerController.enabled = false;
                 player.transform.position = controlSwitchPlayerPosition.position;
+                playerController.enabled = true;
 
                 boatCamera.SetActive(false);
 
                 boatHUD.SetActive(false);
 
-                player.SetActive(true);
+                //player.SetActive(true);
             }
         }
     }
+
+    public void ToggleBoatControl(InputAction.CallbackContext _context)
+    {
+        if (_context.performed && !freezeActionsManager.isFrozen && !freezeActionsManager.isPositionFrozen)
+        {
+            if (isOnBoat)
+            {
+                isControlling = !isControlling;
+
+                if (isControlling)
+                {
+                    playerControlPoint.position = player.transform.position;
+                    playerControlPoint.rotation = player.transform.rotation;
+
+                    Debug.Log("Transform: " + player.transform.position);
+
+                    player.GetComponent<ThirdPersonController>().canMove = false;
+
+                    rb.constraints = RigidbodyConstraints.None;
+
+                    playerInput.SwitchCurrentActionMap("BoatControls");
+
+                    player.transform.SetParent(transform, true);
+
+                    boatCamera.SetActive(true);
+
+                    boatHUD.SetActive(true);
+
+                    exitBoatControlText.SetActive(true);
+                }
+                else
+                {
+                    player.transform.position = playerControlPoint.position;
+                    player.transform.rotation = playerControlPoint.rotation;
+
+                    player.GetComponent<ThirdPersonController>().canMove = true;
+
+                    playerInput.SwitchCurrentActionMap("PlayerControls");
+
+                    player.transform.SetParent(null);
+
+                    boatCamera.SetActive(false);
+
+                    boatHUD.SetActive(false);
+                }
+            }
+
+            //player.SetActive(false);
+        }
+    }
+
+    //public void EnterDeck(InputAction.CallbackContext _context)
+    //{
+    //    if (_context.performed && !freezeActionsManager.isFrozen)
+    //    {
+    //        if (isControlling && !controllingArm)
+    //        {
+    //            isControlling = !isControlling;
+
+    //            playerInput.SwitchCurrentActionMap("PlayerControls");
+
+    //            player.transform.SetParent(null);
+
+    //            player.transform.position = controlSwitchPlayerPosition.position;
+
+    //            boatCamera.SetActive(false);
+
+    //            boatHUD.SetActive(false);
+
+    //            player.SetActive(true);
+    //        }
+    //    }
+    //}
 
     public void ToggleRobotArmControl(InputAction.CallbackContext _context)
     {
@@ -202,25 +329,6 @@ public class BoatController : IInteractable
 
         float newSteerSpeed = 0f;
 
-        //if (currentVelocity > 1f)
-        //{
-        //    if (Mathf.Abs(curSteerInput.x) != 0f)
-        //        newSteerSpeed = (steerSpeed * curSteerInput.x * latestMovementDirection) * currentVelocity / maxVelocity;
-        //    else
-        //    {
-        //        newSteerSpeed = 0f;
-        //    }
-        //}
-        //else if (currentVelocity <= 0.1f)
-        //{
-        //    if (Mathf.Abs(curSteerInput.x) != 0f)
-        //        newSteerSpeed = steerSpeedWhenStopped * curSteerInput.x * latestMovementDirection;
-        //    else
-        //    {
-        //        newSteerSpeed = 0f;
-        //    }
-        //}
-
         newSteerSpeed = (steerSpeed * curSteerInput.x) * currentVelocity / maxVelocity;
 
         newYRotation = Mathf.Lerp(newYRotation, newSteerSpeed, Time.fixedDeltaTime * steerDamping);
@@ -242,6 +350,11 @@ public class BoatController : IInteractable
 
                 rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationY;
             }
+
+            if (isControlling)
+            {
+                playerController.Move(rb.velocity * Time.deltaTime);
+            }
         }
     }
 
@@ -258,64 +371,64 @@ public class BoatController : IInteractable
         }
     }
 
-    public override string GetInteractPrompt(InteractableTypes _interactableType, string _interactableName)
-    {
-        if (!isControlling && !freezeActionsManager.isFrozen)
-        {
-            switch (_interactableType)
-            {
-                case InteractableTypes.Controlable:
-                    return string.Format("Control {0}", _interactableName);
-                case InteractableTypes.Enterable:
-                    if (!isOnBoat)
-                        return string.Format("Enter {0}", _interactableName);
-                    else
-                        return string.Format("Already On {0}", _interactableName);
-            }
-        }
+    //public override string GetInteractPrompt(InteractableTypes _interactableType, string _interactableName)
+    //{
+    //    if (!isControlling && !freezeActionsManager.isFrozen)
+    //    {
+    //        switch (_interactableType)
+    //        {
+    //            case InteractableTypes.Controlable:
+    //                return string.Format("Control {0}", _interactableName);
+    //            case InteractableTypes.Enterable:
+    //                if (!isOnBoat)
+    //                    return string.Format("Enter {0}", _interactableName);
+    //                else
+    //                    return string.Format("Already On {0}", _interactableName);
+    //        }
+    //    }
 
-        return null;
-    }
+    //    return null;
+    //}
 
-    public override void OnInteract(InteractableTypes _interactableType)
-    {
-        if (freezeActionsManager.isFrozen)
-            return;
+    //public override void OnInteract(InteractableTypes _interactableType)
+    //{
+    //    if (freezeActionsManager.isFrozen)
+    //        return;
 
-        switch (_interactableType)
-        {
-            case InteractableTypes.Controlable:
-                isControlling = !isControlling;
+    //    switch (_interactableType)
+    //    {
+    //        case InteractableTypes.Controlable:
+    //            isControlling = !isControlling;
 
-                if (isControlling)
-                {
-                    rb.constraints = RigidbodyConstraints.None;
+    //            if (isControlling)
+    //            {
+    //                rb.constraints = RigidbodyConstraints.None;
 
-                    playerInput.SwitchCurrentActionMap("BoatControls");
+    //                playerInput.SwitchCurrentActionMap("BoatControls");
 
-                    player.transform.SetParent(transform);
+    //                player.transform.SetParent(transform);
 
-                    boatCamera.SetActive(true);
+    //                boatCamera.SetActive(true);
 
-                    boatHUD.SetActive(true);
+    //                boatHUD.SetActive(true);
 
-                    exitBoatControlText.SetActive(true);
+    //                exitBoatControlText.SetActive(true);
 
-                    player.SetActive(false);
-                }
+    //                player.SetActive(false);
+    //            }
 
-                break;
-            case InteractableTypes.Enterable:
-                playerInput.SwitchCurrentActionMap("PlayerControls");
+    //            break;
+    //        case InteractableTypes.Enterable:
+    //            playerInput.SwitchCurrentActionMap("PlayerControls");
 
-                player.transform.SetParent(null);
+    //            player.transform.SetParent(null);
 
-                player.transform.position = controlSwitchPlayerPosition.position;
+    //            player.transform.position = controlSwitchPlayerPosition.position;
 
-                boatCamera.SetActive(false);
-                player.SetActive(true);
+    //            boatCamera.SetActive(false);
+    //            player.SetActive(true);
 
-                break;
-        }
-    }
+    //            break;
+    //    }
+    //}
 }

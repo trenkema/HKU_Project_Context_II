@@ -1,0 +1,34 @@
+# Apple ModelI/O MTL File: gworl.mtl
+
+newmtl initialShadingGroup
+	map_Kd initialShadingGroup-color.png
+	Kd 1 1 1
+	Ka 0 0 0
+	Ks 0
+	ao 0
+	subsurface 0
+	map_metallic initialShadingGroup-metallic.png
+	specularTint 0
+	map_roughness initialShadingGroup-roughness.png
+	anisotropicRotation 0
+	sheen 0.05
+	sheenTint 0
+	clearCoat 0
+	clearCoatGloss 0
+
+newmtl lambert2SG
+	map_Kd lambert2SG-color.png
+	Kd 1 1 1
+	Ka 0 0 0
+	Ks 0
+	ao 0
+	subsurface 0
+	map_metallic lambert2SG-metallic.png
+	specularTint 0
+	map_roughness lambert2SG-roughness.png
+	anisotropicRotation 0
+	sheen 0.05
+	sheenTint 0
+	clearCoat 0
+	clearCoatGloss 0
+

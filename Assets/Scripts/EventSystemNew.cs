@@ -10,7 +10,8 @@ public enum Event_Type
     CURSOR_ON,
     FREEZE_ACTIONS,
     FREEZE_POSITION,
-    TALK_TO_NPC
+    TALK_TO_NPC,
+    PLAYER_NEAR_BOAT
 }
 
 public static class EventSystemNew

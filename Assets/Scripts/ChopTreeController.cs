@@ -5,6 +5,13 @@ using Cinemachine;
 
 public class ChopTreeController : MonoBehaviour
 {
+    [SerializeField] AudioClip swingSound;
+
+    [SerializeField] AudioClip[] choppingSounds;
+
+    [SerializeField] AudioSource choppingAudioSource;
+    [SerializeField] AudioSource swingingAudioSource;
+
     [SerializeField] int minDamage, maxDamage;
 
     [SerializeField] CinemachineImpulseSource treeShake;
@@ -13,9 +20,11 @@ public class ChopTreeController : MonoBehaviour
 
     [SerializeField] GameObject vfxTreeHit;
 
+    [SerializeField] float hitRange = 0.5f;
+
     public void AnimationEvent_OnHit()
     {
-        Vector3 colliderSize = Vector3.one * 0.3f;
+        Vector3 colliderSize = Vector3.one * hitRange;
 
         Collider[] colliderArray = Physics.OverlapBox(hitArea.position, colliderSize);
 
@@ -23,6 +32,8 @@ public class ChopTreeController : MonoBehaviour
         {
             if (collider.TryGetComponent(out ITreeDamageable treeDamageable))
             {
+                choppingAudioSource.PlayOneShot(choppingSounds[Random.Range(0, choppingSounds.Length)]);
+
                 int damageAmount = Random.Range(minDamage, maxDamage);
 
                 treeDamageable.Damage(damageAmount);
@@ -34,5 +45,10 @@ public class ChopTreeController : MonoBehaviour
                 Debug.Log("Tree Hit");
             }
         }
+    }
+
+    public void AnimationEvent_OnSwing()
+    {
+        swingingAudioSource.PlayOneShot(swingSound);
     }
 }

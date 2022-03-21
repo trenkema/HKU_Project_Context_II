@@ -9,12 +9,11 @@ using UnityEngine.InputSystem;
 namespace StarterAssets
 {
 	[RequireComponent(typeof(CharacterController))]
-#if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
-	[RequireComponent(typeof(PlayerInput))]
-#endif
 	public class ThirdPersonController : MonoBehaviour
 	{
 		public bool isInNPCRange = false;
+
+		public bool canMove = true;
 
 		[Header("Player")]
 		[Tooltip("Move speed of the character in m/s")]
@@ -198,7 +197,7 @@ namespace StarterAssets
 			float targetSpeed = 0f;
 
 			// set target speed based on move speed, sprint speed and if sprint is pressed
-			if (!freezeActionsManager.isFrozen && !freezeActionsManager.isPositionFrozen)
+			if (!freezeActionsManager.isFrozen && !freezeActionsManager.isPositionFrozen && canMove)
 				targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 			else
 				targetSpeed = 0f;
@@ -236,7 +235,7 @@ namespace StarterAssets
 
 			// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
 			// if there is a move input rotate player when the player is moving
-			if (_input.move != Vector2.zero && !freezeActionsManager.isFrozen && !freezeActionsManager.isPositionFrozen)
+			if (_input.move != Vector2.zero && !freezeActionsManager.isFrozen && !freezeActionsManager.isPositionFrozen && canMove)
 			{
 				_targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
 				float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, RotationSmoothTime);
