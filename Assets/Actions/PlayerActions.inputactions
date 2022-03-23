@@ -84,6 +84,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "EnterDrone",
+                    "type": "Button",
+                    "id": "d7f932fa-c1dd-414e-9b0a-6a7cbb8799b4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -282,6 +290,17 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "EnterBoat",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "82213c6c-2c6e-45ee-9ca1-f76b2efa956a",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "EnterDrone",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

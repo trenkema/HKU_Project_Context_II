@@ -10,7 +10,8 @@ public class QuestManager : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] List<QuestLibrary> quests = new List<QuestLibrary>();
-    [SerializeField] GameObject questPrefab;
+    [SerializeField] GameObject activeQuestPrefab;
+    [SerializeField] GameObject completedQuestPrefab;
     [SerializeField] GameObject questObjectivePrefab;
 
     [SerializeField] GameObject questWindow;
@@ -162,7 +163,7 @@ public class QuestManager : MonoBehaviour
             activeQuests.Add(_quest);
 
             // Quest Window Item
-            GameObject newQuestPrefab = Instantiate(questPrefab);
+            GameObject newQuestPrefab = Instantiate(activeQuestPrefab);
 
             questItems.Add(_quest, newQuestPrefab);
             
@@ -216,17 +217,25 @@ public class QuestManager : MonoBehaviour
             if (activeQuests.Count == 0)
                 noQuestsInGameText.SetActive(true);
 
+            GameObject oldQuestObject = questItems[_quest].gameObject;
+            questItems.Remove(_quest);
+
+            Destroy(oldQuestObject);
             Destroy(questObjectiveItems[_quest].gameObject);
 
-            GameObject questObject = questItems[_quest].gameObject;
-            QuestItem questItem = questObject.GetComponent<QuestItem>();
+            // Quest Window Item
+            GameObject newQuestPrefab = Instantiate(completedQuestPrefab);
 
-            questItem.transform.SetParent(completedQuestsContentRectTransform.transform, false);
+            questItems.Add(_quest, newQuestPrefab);
 
-            questItem.UpdateAmount(_quest.questMaxAmount, _quest.questMaxAmount);
+            newQuestPrefab.transform.SetParent(completedQuestsContentRectTransform.transform, false);
 
-            if (completedQuestsScrollArea.activeInHierarchy)
-                noActiveQuestsText.SetActive(false);
+            QuestItem questItem = newQuestPrefab.GetComponent<QuestItem>();
+
+            questItem.questName.text = _quest.questName;
+            questItem.questDescription.text = _quest.questDescription;
+
+            questItem.UpdateAmount(_quest.questCurrentAmount, _quest.questMaxAmount);
 
             foreach (var quest in quests)
             {

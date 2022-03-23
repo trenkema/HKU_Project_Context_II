@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
 
-public class DroneController : IInteractable
+public class DroneController : MonoBehaviour //IInteractable
 {
     [Header("References")]
     [SerializeField] Quest quest;
 
     [SerializeField] Animator animator;
+
+    [SerializeField] GameObject controlText;
 
     [SerializeField] Transform seedsDropTransform;
     [SerializeField] GameObject seedPrefab;
@@ -39,12 +41,16 @@ public class DroneController : IInteractable
     [SerializeField] float groundDistance = 0.1f;
     [SerializeField] LayerMask groundLayer;
 
+    FreezeActions freezeActionsManager;
+
     Vector2 curMovementInput;
     Vector2 curRotationInput;
 
     bool isGrounded = false;
 
     bool isControlling = false;
+
+    bool isNearDrone = false;
 
     float upForce = 98.1f;
 
@@ -81,9 +87,23 @@ public class DroneController : IInteractable
         EventSystemNew<Quest>.Unsubscribe(Event_Type.QUEST_COMPLETED, QuestCompleted);
     }
 
+    private void Start()
+    {
+        freezeActionsManager = FreezeActions.Instance;
+    }
+
     private void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundLayer, QueryTriggerInteraction.Ignore);
+
+        if (isNearDrone && !isControlling)
+        {
+            controlText.SetActive(true);
+        }
+        else
+        {
+            controlText.SetActive(false);
+        }
 
         if (!isControlling)
         {
@@ -220,65 +240,123 @@ public class DroneController : IInteractable
         }
     }
 
-    public void ExitDrone(InputAction.CallbackContext _context)
+    public void ToggleDroneControl(InputAction.CallbackContext _context)
     {
-        if (_context.performed)
+        if (_context.performed && !freezeActionsManager.isFrozen && !freezeActionsManager.isPositionFrozen)
         {
-            if (isControlling)
+            if (isNearDrone)
             {
-                noPlayerInteraction.DisableScript(false);
-
                 isControlling = !isControlling;
 
-                playerInput.SwitchCurrentActionMap("PlayerControls");
+                if (isControlling)
+                {
+                    noPlayerInteraction.DisableScript(true);
 
-                playerCamera.SetActive(true);
+                    rb.constraints = RigidbodyConstraints.None;
 
-                playerHUD.SetActive(true);
+                    playerInput.SwitchCurrentActionMap("DroneControls");
 
-                droneCamera.SetActive(false);
+                    droneCamera.SetActive(true);
 
-                droneHUD.SetActive(false);
+                    droneHUD.SetActive(true);
+                }
+                else
+                {
+                    isNearDrone = false;
+
+                    noPlayerInteraction.DisableScript(false);
+
+                    playerInput.SwitchCurrentActionMap("PlayerControls");
+
+                    droneCamera.SetActive(false);
+
+                    droneHUD.SetActive(false);
+                }
             }
         }
     }
 
-    public override string GetInteractPrompt(InteractableTypes _interactableType, string _interactableName)
+    private void OnTriggerStay(Collider other)
     {
-        if (!isControlling)
+        if (other.CompareTag("Player"))
         {
-            switch (_interactableType)
+            if (!isControlling)
             {
-                case InteractableTypes.Controlable:
-                    return string.Format("Control {0}", _interactableName);
+                isNearDrone = true;
             }
         }
-
-        return null;
     }
 
-    public override void OnInteract(InteractableTypes _interactableType)
+    private void OnTriggerExit(Collider other)
     {
-        if (_interactableType == InteractableTypes.Controlable)
+        if (other.CompareTag("Player"))
         {
-            isControlling = !isControlling;
-
-            if (isControlling)
+            if (!isControlling)
             {
-                noPlayerInteraction.DisableScript(true);
-
-                rb.constraints = RigidbodyConstraints.None;
-
-                playerInput.SwitchCurrentActionMap("DroneControls");
-
-                playerCamera.SetActive(false);
-
-                playerHUD.SetActive(false);
-
-                droneCamera.SetActive(true);
-
-                droneHUD.SetActive(true);
+                isNearDrone = false;
             }
         }
     }
+
+    //public void ExitDrone(InputAction.CallbackContext _context)
+    //{
+    //    if (_context.performed)
+    //    {
+    //        if (isControlling)
+    //        {
+    //            noPlayerInteraction.DisableScript(false);
+
+    //            isControlling = !isControlling;
+
+    //            playerInput.SwitchCurrentActionMap("PlayerControls");
+
+    //            playerCamera.SetActive(true);
+
+    //            playerHUD.SetActive(true);
+
+    //            droneCamera.SetActive(false);
+
+    //            droneHUD.SetActive(false);
+    //        }
+    //    }
+    //}
+
+    //public override string GetInteractPrompt(InteractableTypes _interactableType, string _interactableName)
+    //{
+    //    if (!isControlling)
+    //    {
+    //        switch (_interactableType)
+    //        {
+    //            case InteractableTypes.Controlable:
+    //                return string.Format("Control {0}", _interactableName);
+    //        }
+    //    }
+
+    //    return null;
+    //}
+
+    //public override void OnInteract(InteractableTypes _interactableType)
+    //{
+    //    if (_interactableType == InteractableTypes.Controlable)
+    //    {
+    //        isControlling = !isControlling;
+
+    //        if (isControlling)
+    //        {
+    //            noPlayerInteraction.DisableScript(true);
+
+    //            rb.constraints = RigidbodyConstraints.None;
+
+    //            playerInput.SwitchCurrentActionMap("DroneControls");
+
+    //            playerCamera.SetActive(false);
+
+    //            playerHUD.SetActive(false);
+
+    //            droneCamera.SetActive(true);
+
+    //            droneHUD.SetActive(true);
+    //        }
+    //    }
+    //}
 }
