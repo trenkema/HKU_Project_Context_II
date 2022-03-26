@@ -71,8 +71,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Lorem ipsum abra cadabra testo vania
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f438e2ebbd06da843979da8442e4ceb1, type: 2}
-  m_sharedMaterial: {fileID: 3618155794345606660, guid: f438e2ebbd06da843979da8442e4ceb1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4e8d7a5c0f1073b4abf49f1c4cc506f7, type: 2}
+  m_sharedMaterial: {fileID: -5665395282297414248, guid: 4e8d7a5c0f1073b4abf49f1c4cc506f7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

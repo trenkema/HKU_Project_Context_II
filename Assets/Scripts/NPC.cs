@@ -8,7 +8,9 @@ using StarterAssets;
 
 public class NPC : MonoBehaviour
 {
-    [SerializeField] ThirdPersonController aids;
+    [SerializeField] Animator animator;
+
+    [SerializeField] ThirdPersonController playerController;
 
     [SerializeField] float waitDelay = 0.15f;
 
@@ -40,11 +42,10 @@ public class NPC : MonoBehaviour
     [SerializeField] Transform lookAtPlayerParent;
     [SerializeField] Transform lookAtNPCParent;
 
-    //private void Start()
-    //{
-    //    npcZoomCamera.Priority = playerCamera.Priority - 1;
-    //    npcZoomCamera.gameObject.SetActive(true);
-    //}
+    private void Start()
+    {
+        talkText.SetActive(false);
+    }
 
     private void Update()
     {
@@ -87,7 +88,7 @@ public class NPC : MonoBehaviour
 
             zoom = true;
 
-            aids.isInNPCRange = true;
+            playerController.isInNPCRange = true;
         }
     }
 
@@ -95,12 +96,16 @@ public class NPC : MonoBehaviour
     {
         if (other.CompareTag("Player") && inkManager.npcTalking && playerInTrigger && !hasTalked)
         {
+            animator.SetBool("isSpeaking", true);
+
             talkText.SetActive(false);
 
             hasTalked = true;
         }
         else if (other.CompareTag("Player") && !inkManager.npcTalking && playerInTrigger && hasTalked)
         {
+            animator.SetBool("isSpeaking", false);
+
             hasTalked = false;
 
             talkText.SetActive(true);
@@ -125,7 +130,7 @@ public class NPC : MonoBehaviour
 
             zoom = false;
 
-            aids.isInNPCRange = false;
+            playerController.isInNPCRange = false;
         }
     }
 

@@ -86,6 +86,8 @@ public class BasicInkExample : MonoBehaviour
         if (OnCreateStory != null) OnCreateStory(story);
         story.BindExternalFunction("isTalking", (string name) =>
         {
+            EventSystemNew<string>.RaiseEvent(Event_Type.TALK_TO_NPC, name);
+
             isTalking(name);
         });
         story.BindExternalFunction("completeQuest", (int questId) =>

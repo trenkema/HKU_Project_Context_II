@@ -11,7 +11,10 @@ public enum Event_Type
     FREEZE_ACTIONS,
     FREEZE_POSITION,
     TALK_TO_NPC,
-    PLAYER_NEAR_BOAT
+    PLAYER_NEAR_BOAT,
+    RYTHM_BUTTON_DESTROYED,
+    PIPE_FIXED,
+    START_GAME
 }
 
 public static class EventSystemNew

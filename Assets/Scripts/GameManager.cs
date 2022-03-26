@@ -13,10 +13,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] Quest temporaryStartQuest;
 
-    [SerializeField] GameObject playerCrosshair;
-
-    [SerializeField] InteractionManager interactionManager;
-
     [SerializeField] GameObject mainMenuHUD;
 
     [SerializeField] Animator mainMenuAnimator;
@@ -38,13 +34,6 @@ public class GameManager : MonoBehaviour
         freezeActionsManager = FreezeActions.Instance;
 
         uiMap = playerInput.actions.FindActionMap("UI");
-
-        //playerCrosshair.SetActive(false);
-
-        interactionManager.enabled = false;
-
-        fadeAnimator.SetBool("FadeOut", true);
-        fadeAnimator.SetBool("FadeIn", false);
 
         EventSystemNew<bool>.RaiseEvent(Event_Type.FREEZE_ACTIONS, true); // Freeze Movement At Start
         EventSystemNew<bool>.RaiseEvent(Event_Type.CURSOR_ON, true);
@@ -71,8 +60,6 @@ public class GameManager : MonoBehaviour
 
             EventSystemNew<bool>.RaiseEvent(Event_Type.CURSOR_ON, !isFrozen);
             EventSystemNew<bool>.RaiseEvent(Event_Type.FREEZE_ACTIONS, !isFrozen);
-
-            playerCrosshair.SetActive(!isFrozen);
         }
     }
 
@@ -109,13 +96,9 @@ public class GameManager : MonoBehaviour
         EventSystemNew<bool>.RaiseEvent(Event_Type.CURSOR_ON, false);
         EventSystemNew<bool>.RaiseEvent(Event_Type.FREEZE_ACTIONS, false);
 
-        //playerCrosshair.SetActive(true);
-
         playerInput.SwitchCurrentActionMap("PlayerControls");
 
         uiMap.Enable();
-
-        interactionManager.enabled = true;
 
         mainMenuHUD.SetActive(false);
 

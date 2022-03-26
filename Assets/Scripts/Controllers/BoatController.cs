@@ -76,14 +76,20 @@ public class BoatController : MonoBehaviour //: IInteractable
 
     CharacterController playerController;
 
+    float playerGravity;
+
+    bool gameStarted = false;
+
     private void OnEnable()
     {
         EventSystemNew<bool>.Subscribe(Event_Type.PLAYER_NEAR_BOAT, IsPlayerNearBoat);
+        EventSystemNew.Subscribe(Event_Type.START_GAME, StartGame);
     }
 
     private void OnDisable()
     {
         EventSystemNew<bool>.Unsubscribe(Event_Type.PLAYER_NEAR_BOAT, IsPlayerNearBoat);
+        EventSystemNew.Unsubscribe(Event_Type.START_GAME, StartGame);
     }
 
     private void Awake()
@@ -105,6 +111,8 @@ public class BoatController : MonoBehaviour //: IInteractable
         freezeActionsManager = FreezeActions.Instance;
 
         playerController = player.GetComponent<CharacterController>();
+
+        playerGravity = player.GetComponent<ThirdPersonController>().Gravity;
     }
 
     private void Update()
@@ -154,6 +162,11 @@ public class BoatController : MonoBehaviour //: IInteractable
         RotateBoat();
     }
 
+    private void StartGame()
+    {
+        gameStarted = true;
+    }
+
     private void IsPlayerNearBoat(bool _isNearBoat)
     {
         isNearBoat = _isNearBoat;
@@ -163,7 +176,7 @@ public class BoatController : MonoBehaviour //: IInteractable
     {
         if (_context.performed && !freezeActionsManager.isFrozen && !freezeActionsManager.isPositionFrozen)
         {
-            if (!isOnBoat && isNearBoat)
+            if (!isOnBoat && isNearBoat && gameStarted)
             {
                 enterDeckText.SetActive(false);
 
@@ -188,7 +201,7 @@ public class BoatController : MonoBehaviour //: IInteractable
     {
         if (_context.performed && !freezeActionsManager.isFrozen && !freezeActionsManager.isPositionFrozen)
         {
-            if (isOnBoat)
+            if (isOnBoat && gameStarted)
             {
                 isControlling = !isControlling;
 
@@ -199,13 +212,15 @@ public class BoatController : MonoBehaviour //: IInteractable
 
                     Debug.Log("Transform: " + player.transform.position);
 
+                    playerController.enabled = false;
                     player.GetComponent<ThirdPersonController>().canMove = false;
+                    player.GetComponent<ThirdPersonController>().Gravity = 0;
 
                     rb.constraints = RigidbodyConstraints.None;
 
                     playerInput.SwitchCurrentActionMap("BoatControls");
 
-                    player.transform.SetParent(transform, true);
+                    //player.transform.SetParent(transform, true);
 
                     boatCamera.SetActive(true);
 
@@ -218,11 +233,13 @@ public class BoatController : MonoBehaviour //: IInteractable
                     player.transform.position = playerControlPoint.position;
                     player.transform.rotation = playerControlPoint.rotation;
 
+                    playerController.enabled = true;
                     player.GetComponent<ThirdPersonController>().canMove = true;
+                    player.GetComponent<ThirdPersonController>().Gravity = playerGravity;
 
                     playerInput.SwitchCurrentActionMap("PlayerControls");
 
-                    player.transform.SetParent(null);
+                    //player.transform.SetParent(null);
 
                     boatCamera.SetActive(false);
 
@@ -348,13 +365,15 @@ public class BoatController : MonoBehaviour //: IInteractable
             {
                 isOnBoat = true;
 
+                player.transform.SetParent(transform);
+
                 rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationY;
             }
 
-            if (isControlling)
-            {
-                playerController.Move(rb.velocity * Time.deltaTime);
-            }
+            //if (isControlling)
+            //{
+            //    playerController.Move(rb.velocity * Time.deltaTime);
+            //}
         }
     }
 
@@ -365,6 +384,8 @@ public class BoatController : MonoBehaviour //: IInteractable
             if (!isControlling)
             {
                 isOnBoat = false;
+
+                player.transform.SetParent(null);
 
                 rb.constraints = RigidbodyConstraints.None;
             }
