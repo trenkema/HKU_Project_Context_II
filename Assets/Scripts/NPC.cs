@@ -80,7 +80,7 @@ public class NPC : MonoBehaviour
 
             talkText.SetActive(true);
 
-            inkManager.OnTriggerNPC(npc.npcName);
+            inkManager.OnTriggerNPC(npc.npcName, animator);
 
             playerInTrigger = true;
 
@@ -124,42 +124,13 @@ public class NPC : MonoBehaviour
 
             talkText.SetActive(false);
 
-            inkManager.OnTriggerNPC(string.Empty);
+            inkManager.OnTriggerNPC(string.Empty, null);
 
             playerInTrigger = false;
 
             zoom = false;
 
             playerController.isInNPCRange = false;
-        }
-    }
-
-    public void ZoomNPC(InputAction.CallbackContext context)
-    {
-        if (context.phase == InputActionPhase.Started)
-        {
-            //npcZoomCamera.LookAt = focusRootTransform;
-            //npcZoomCamera.Priority = playerCamera.Priority + 1;
-
-            talkText.SetActive(true);
-
-            inkManager.OnTriggerNPC(npc.npcName);
-
-            playerInTrigger = true;
-        }
-    }
-
-    public void UnNPC(InputAction.CallbackContext context)
-    {
-        if (context.phase == InputActionPhase.Started)
-        {
-            //npcZoomCamera.Priority = playerCamera.Priority - 1;
-
-            inkManager.npcTalking = false;
-
-            talkText.SetActive(false);
-
-            inkManager.OnTriggerNPC(string.Empty);
         }
     }
 }

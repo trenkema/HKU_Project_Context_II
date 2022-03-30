@@ -32,6 +32,7 @@ public class BasicInkExample : MonoBehaviour
     private GameObject hud;
 
     string onTriggerNPCName = "";
+    Animator onTriggerNPCAnimator;
 
     void Awake()
     {
@@ -52,9 +53,10 @@ public class BasicInkExample : MonoBehaviour
         EventSystemNew.Unsubscribe(Event_Type.TALK_TO_NPC, StartStoryFromNPC);
     }
 
-    public void OnTriggerNPC(string npcName)
+    public void OnTriggerNPC(string npcName, Animator npcAnimator)
     {
         onTriggerNPCName = npcName;
+        onTriggerNPCAnimator = npcAnimator;
     }
 
     public void StartStoryFromNPC()
@@ -141,6 +143,8 @@ public class BasicInkExample : MonoBehaviour
             Button choice = CreateChoiceView("Continue");
             choice.onClick.AddListener(delegate
             {
+                onTriggerNPCAnimator.SetBool("isSpeaking", false);
+
                 ToggleHUD(false);
 
                 EventSystemNew<bool>.RaiseEvent(Event_Type.CURSOR_ON, false);
@@ -160,8 +164,16 @@ public class BasicInkExample : MonoBehaviour
     // When we click the choice button, tell the story to choose that choice!
     void OnClickChoiceButton(Choice choice)
     {
+        onTriggerNPCAnimator.SetBool("isSpeaking", false);
+        Invoke("StartSpeaking", 0.1f);
+
         story.ChooseChoiceIndex(choice.index);
         RefreshView();
+    }
+
+    void StartSpeaking()
+    {
+        onTriggerNPCAnimator.SetBool("isSpeaking", true);
     }
 
     // Creates a textbox showing the the line of text
@@ -187,9 +199,9 @@ public class BasicInkExample : MonoBehaviour
     Button CreateChoiceView(string text)
     {
         // Creates the button from a prefab
-        GameObject buttonParent = Instantiate(buttonPrefab);
+        GameObject buttonParent = Instantiate(buttonPrefab, choiceParent.transform);
         Button choice = buttonParent.GetComponentInChildren<Button>();
-        choice.transform.SetParent(choiceParent.transform, false);
+        //choice.transform.SetParent(choiceParent.transform, false);
 
         // Gets the text from the button prefab
         TextMeshProUGUI choiceText = choice.GetComponentInChildren<TextMeshProUGUI>();

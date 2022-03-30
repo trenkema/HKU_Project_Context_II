@@ -100,6 +100,22 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "StartRythmGame",
+                    "type": "Button",
+                    "id": "3c7205d3-9554-4d5d-a491-3c16e46da802",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ExitRythmGame",
+                    "type": "Button",
+                    "id": "547713f2-5175-458b-a249-da95b040540c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -410,6 +426,28 @@
                     "action": "HitKey",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "8901835c-5434-44de-8a6a-e2e60206f977",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "StartRythmGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ada7581c-c021-45bb-8f14-d4a78cd0013a",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "ExitRythmGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

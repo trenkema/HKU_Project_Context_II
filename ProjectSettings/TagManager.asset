@@ -8,6 +8,7 @@ TagManager:
   - EcoDuct
   - CinemachineTarget
   - Walkable
+  - Tree
   layers:
   - Default
   - TransparentFX
@@ -24,8 +25,8 @@ TagManager:
   - Vegetation
   - StarGenerator
   - KeyButton
-  - 
-  - 
+  - Vegetation
+  - NPC
   - 
   - 
   - 

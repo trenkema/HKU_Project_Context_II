@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] Terrain terrain;
+
     [SerializeField] GameObject mainMenuCamera;
 
     [SerializeField] GameObject postProcessingMainMenu;
@@ -31,6 +33,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        terrain.transform.gameObject.layer = 0;
+
         freezeActionsManager = FreezeActions.Instance;
 
         uiMap = playerInput.actions.FindActionMap("UI");

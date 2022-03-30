@@ -8,11 +8,15 @@ using Cinemachine;
 public class RythmMinigame : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] Animator pumpAnimator;
+
+    [SerializeField] Animator hudAnimator;
+
     [SerializeField] AudioSource audioSource;
 
-    [SerializeField] CinemachineImpulseSource rythmShake;
+    [SerializeField] GameObject[] hudComponents;
 
-    [SerializeField] Animator animator;
+    [SerializeField] CinemachineImpulseSource rythmShake;
 
     [SerializeField] GameObject[] buttonPrefabs;
     [SerializeField] Transform[] buttonSpawnPositions;
@@ -32,7 +36,11 @@ public class RythmMinigame : MonoBehaviour
 
     [SerializeField] float[] buttonMultiplier;
 
-    public bool spawnButtons = true;
+    List<GameObject> spawnedButtons = new List<GameObject>();
+
+    public bool spawnButtons = false;
+
+    public bool isStarted = false;
 
     int litersPumped = 0;
 
@@ -48,14 +56,47 @@ public class RythmMinigame : MonoBehaviour
 
     private void Start()
     {
+        foreach (var hudComponent in hudComponents)
+        {
+            hudComponent.SetActive(false);
+        }
+    }
+
+    public void StartGame()
+    {
+        spawnButtons = true;
+
+        pumpAnimator.SetBool("Pump", true);
+
         StartCoroutine(SpawnButtons());
+    }
+
+    public void ExitGame()
+    {
+        spawnButtons = false;
+
+        pumpAnimator.SetBool("Pump", false);
+
+        audioSource.Stop();
+
+        StopAllCoroutines();
+
+        foreach (var spawnedButton in spawnedButtons)
+        {
+            Destroy(spawnedButton);
+        }
+
+        foreach (var hudComponent in hudComponents)
+        {
+            hudComponent.SetActive(false);
+        }
     }
 
     public void HitKey(InputAction.CallbackContext _context)
     {
         if (_context.phase == InputActionPhase.Started)
         {
-            animator.SetTrigger("Hit");
+            hudAnimator.SetTrigger("Hit");
 
             Vector2 hitValue = _context.ReadValue<Vector2>();
             RythmButton nearestX = null;
@@ -168,11 +209,18 @@ public class RythmMinigame : MonoBehaviour
 
         GameObject spawnedButton = Instantiate(buttonPrefab, spawnPosition);
         spawnedButton.GetComponent<RythmButton>().Setup(multiplier, multiplierID, spawnPositionID, transform.position);
+
+        spawnedButtons.Add(spawnedButton);
     }
 
     IEnumerator SpawnButtons()
     {
         audioSource.Play();
+
+        foreach (var hudComponent in hudComponents)
+        {
+            hudComponent.SetActive(true);
+        }
 
         yield return new WaitForSeconds(delayToStart);
 
