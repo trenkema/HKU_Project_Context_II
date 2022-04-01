@@ -49,11 +49,15 @@ public class GameManager : MonoBehaviour
             EventSystemNew<Quest>.RaiseEvent(Event_Type.ACTIVATE_QUEST, temporaryStartQuest);
 
         EventSystemNew<bool>.Subscribe(Event_Type.CURSOR_ON, CursorOn);
+
+        EventSystemNew.Subscribe(Event_Type.GAME_FINISHED, GameFinished);
     }
 
     private void OnDisable()
     {
         EventSystemNew<bool>.Unsubscribe(Event_Type.CURSOR_ON, CursorOn);
+
+        EventSystemNew.Unsubscribe(Event_Type.GAME_FINISHED, GameFinished);
     }
 
     public void OnFreezeToggle(InputAction.CallbackContext context)
@@ -108,6 +112,11 @@ public class GameManager : MonoBehaviour
 
         postProcessingMainMenu.SetActive(false);
         postProcessingInGame.SetActive(true);
+    }
+
+    private void GameFinished()
+    {
+
     }
     
     public void QuitGame()

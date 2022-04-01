@@ -5,6 +5,8 @@ using Cinemachine;
 
 public class ChopTreeController : MonoBehaviour
 {
+    [SerializeField] Quest quest;
+
     [SerializeField] AudioClip swingSound;
 
     [SerializeField] AudioClip[] choppingSounds;
@@ -22,27 +24,50 @@ public class ChopTreeController : MonoBehaviour
 
     [SerializeField] float hitRange = 0.5f;
 
+    bool canChop = false;
+
+    private void OnEnable()
+    {
+        EventSystemNew<Quest>.Subscribe(Event_Type.ACTIVATE_QUEST, CanChop);
+    }
+
+    private void OnDisable()
+    {
+        EventSystemNew<Quest>.Unsubscribe(Event_Type.ACTIVATE_QUEST, CanChop);
+    }
+
+    private void CanChop(Quest _quest)
+    {
+        if (quest == _quest)
+        {
+            canChop = true;
+        }
+    }
+
     public void AnimationEvent_OnHit()
     {
-        Vector3 colliderSize = Vector3.one * hitRange;
-
-        Collider[] colliderArray = Physics.OverlapBox(hitArea.position, colliderSize);
-
-        foreach (Collider collider in colliderArray)
+        if (canChop)
         {
-            if (collider.TryGetComponent(out ITreeDamageable treeDamageable))
+            Vector3 colliderSize = Vector3.one * hitRange;
+
+            Collider[] colliderArray = Physics.OverlapBox(hitArea.position, colliderSize);
+
+            foreach (Collider collider in colliderArray)
             {
-                choppingAudioSource.PlayOneShot(choppingSounds[Random.Range(0, choppingSounds.Length)]);
+                if (collider.TryGetComponent(out ITreeDamageable treeDamageable))
+                {
+                    choppingAudioSource.PlayOneShot(choppingSounds[Random.Range(0, choppingSounds.Length)]);
 
-                int damageAmount = Random.Range(minDamage, maxDamage);
+                    int damageAmount = Random.Range(minDamage, maxDamage);
 
-                treeDamageable.Damage(damageAmount);
+                    treeDamageable.Damage(damageAmount);
 
-                treeShake.GenerateImpulse();
+                    treeShake.GenerateImpulse();
 
-                Instantiate(vfxTreeHit, hitArea.position, Quaternion.identity);
+                    Instantiate(vfxTreeHit, hitArea.position, Quaternion.identity);
 
-                Debug.Log("Tree Hit");
+                    Debug.Log("Tree Hit");
+                }
             }
         }
     }

@@ -15,7 +15,8 @@ public enum Event_Type
     PLAYER_ON_BOAT,
     RYTHM_BUTTON_DESTROYED,
     PIPE_FIXED,
-    START_GAME
+    START_GAME,
+    GAME_FINISHED
 }
 
 public static class EventSystemNew

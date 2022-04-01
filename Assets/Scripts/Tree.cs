@@ -19,18 +19,41 @@ public class Tree : MonoBehaviour, ITreeDamageable
 
     int health;
 
+    bool canChop = false;
+
+    private void OnEnable()
+    {
+        EventSystemNew<Quest>.Subscribe(Event_Type.ACTIVATE_QUEST, CanChop);
+    }
+
+    private void OnDisable()
+    {
+        EventSystemNew<Quest>.Unsubscribe(Event_Type.ACTIVATE_QUEST, CanChop);
+    }
+
     private void Start()
     {
         health = Random.Range(minHealth, maxHealth);
     }
 
+    private void CanChop(Quest _quest)
+    {
+        if (quest == _quest)
+        {
+            canChop = true;
+        }
+    }
+
     public void Damage(int _amount)
     {
-        health -= _amount;
-
-        if (health <= 0)
+        if (canChop)
         {
-            OnDead();
+            health -= _amount;
+
+            if (health <= 0)
+            {
+                OnDead();
+            }
         }
     }
 

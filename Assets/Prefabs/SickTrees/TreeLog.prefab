@@ -247,6 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 874234e5bcf428241ba66a59fe21e717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  quest: {fileID: 0}
   treeToDestroy: {fileID: 0}
   minHealth: 75
   maxHealth: 125
@@ -878,7 +879,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 00b6635edfe1a2f4fab45abff5240124, type: 2}
+  - {fileID: 2100000, guid: c4badd83c2f4c4746a734effa79fd287, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1627,6 +1628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 874234e5bcf428241ba66a59fe21e717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  quest: {fileID: 0}
   treeToDestroy: {fileID: 0}
   minHealth: 75
   maxHealth: 125
@@ -3297,7 +3299,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 00b6635edfe1a2f4fab45abff5240124, type: 2}
+  - {fileID: 2100000, guid: c4badd83c2f4c4746a734effa79fd287, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4056,6 +4058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 874234e5bcf428241ba66a59fe21e717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  quest: {fileID: 0}
   treeToDestroy: {fileID: 0}
   minHealth: 75
   maxHealth: 125
@@ -4747,6 +4750,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 874234e5bcf428241ba66a59fe21e717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  quest: {fileID: 0}
   treeToDestroy: {fileID: 0}
   minHealth: 75
   maxHealth: 125
@@ -5282,7 +5286,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 00b6635edfe1a2f4fab45abff5240124, type: 2}
+  - {fileID: 2100000, guid: c4badd83c2f4c4746a734effa79fd287, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5947,6 +5951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 874234e5bcf428241ba66a59fe21e717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  quest: {fileID: 0}
   treeToDestroy: {fileID: 0}
   minHealth: 75
   maxHealth: 125
@@ -6400,7 +6405,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 00b6635edfe1a2f4fab45abff5240124, type: 2}
+  - {fileID: 2100000, guid: c4badd83c2f4c4746a734effa79fd287, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10618,7 +10623,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 00b6635edfe1a2f4fab45abff5240124, type: 2}
+  - {fileID: 2100000, guid: c4badd83c2f4c4746a734effa79fd287, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11584,6 +11589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 874234e5bcf428241ba66a59fe21e717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  quest: {fileID: 0}
   treeToDestroy: {fileID: 0}
   minHealth: 75
   maxHealth: 125
@@ -12057,7 +12063,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 00b6635edfe1a2f4fab45abff5240124, type: 2}
+  - {fileID: 2100000, guid: c4badd83c2f4c4746a734effa79fd287, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15492,6 +15498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 874234e5bcf428241ba66a59fe21e717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  quest: {fileID: 0}
   treeToDestroy: {fileID: 0}
   minHealth: 75
   maxHealth: 125

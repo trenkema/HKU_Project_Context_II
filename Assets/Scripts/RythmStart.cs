@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class RythmStart : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] Quest quest;
 
     [SerializeField] GameObject rythmCamera;
@@ -12,6 +13,8 @@ public class RythmStart : MonoBehaviour
     [SerializeField] RythmMinigame rythmMinigame;
 
     [SerializeField] GameObject startPumpingText;
+
+    [SerializeField] GameObject pumpArrow;
 
     bool isQuestActive = false;
 
@@ -42,6 +45,8 @@ public class RythmStart : MonoBehaviour
         if (quest == _quest)
         {
             isQuestActive = true;
+
+            pumpArrow.SetActive(true);
         }
     }
 
@@ -49,6 +54,8 @@ public class RythmStart : MonoBehaviour
     {
         if (_context.phase == InputActionPhase.Started && isInTrigger & !pressedButtonExit && !isPlaying)
         {
+            pumpArrow.SetActive(false);
+
             pressedButtonStart = true;
 
             rythmCamera.SetActive(true);
@@ -69,6 +76,8 @@ public class RythmStart : MonoBehaviour
     {
         if (_context.phase == InputActionPhase.Started && !pressedButtonStart && isPlaying)
         {
+            pumpArrow.SetActive(true);
+
             pressedButtonExit = true;
 
             rythmCamera.SetActive(false);
@@ -87,6 +96,8 @@ public class RythmStart : MonoBehaviour
 
     public void MiniGameFinished()
     {
+        pumpArrow.SetActive(false);
+
         rythmCamera.SetActive(false);
 
         isPlaying = false;
@@ -94,6 +105,8 @@ public class RythmStart : MonoBehaviour
         rythmMinigame.ExitGame();
 
         isQuestActive = false;
+
+        isInTrigger = false;
 
         EventSystemNew<bool>.RaiseEvent(Event_Type.FREEZE_ACTIONS, false);
     }

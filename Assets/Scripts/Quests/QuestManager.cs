@@ -50,6 +50,8 @@ public class QuestManager : MonoBehaviour
     Dictionary<Quest, GameObject> questItems = new Dictionary<Quest, GameObject>();
     Dictionary<Quest, GameObject> questObjectiveItems = new Dictionary<Quest, GameObject>();
 
+    int amountCompletedQuests = 0;
+
     private void Awake()
     {
         activeTabText.color = activeTextColor;
@@ -211,6 +213,17 @@ public class QuestManager : MonoBehaviour
     {
         if (activeQuests.Contains(_quest))
         {
+            amountCompletedQuests++;
+
+            if (amountCompletedQuests >= quests.Count)
+            {
+                // Game Finished
+
+                Debug.Log("Amount Completed: " + amountCompletedQuests + " Quests: " + quests.Count);
+
+                EventSystemNew.RaiseEvent(Event_Type.GAME_FINISHED);
+            }
+
             activeQuests.Remove(_quest);
             completedQuests.Add(_quest);
 

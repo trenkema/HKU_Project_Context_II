@@ -10,6 +10,10 @@ namespace StarterAssets
 {
 	public class StarterAssetsInputs : MonoBehaviour
 	{
+		public Quest axeQuest;
+
+		public GameObject axePrefab;
+
 		public Animator rigAnimator;
 		public GameObject equippedCamera;
 
@@ -33,6 +37,8 @@ namespace StarterAssets
 
 		bool primaryUsed = false;
 
+		bool hasAxe = false;
+
 		[Header("Movement Settings")]
 		public bool analogMovement;
 
@@ -43,14 +49,36 @@ namespace StarterAssets
 #endif
 
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
+        private void OnEnable()
+        {
+			EventSystemNew<Quest>.Subscribe(Event_Type.ACTIVATE_QUEST, ActivateAxe);
+        }
+
+        private void OnDisable()
+        {
+			EventSystemNew<Quest>.Unsubscribe(Event_Type.ACTIVATE_QUEST, ActivateAxe);
+		}
+
         private void Start()
         {
+			axePrefab.SetActive(false);
+
 			rigAnimator.enabled = false;
 
 			// Load Map Texture
 			mapCamera.SetActive(true);
 
 			Invoke("DisableMapCamera", 0.25f);
+        }
+
+		private void ActivateAxe(Quest _quest)
+        {
+			if (axeQuest == _quest)
+            {
+				axePrefab.SetActive(true);
+
+				hasAxe = true;
+            }
         }
 
 		private void DisableMapCamera()

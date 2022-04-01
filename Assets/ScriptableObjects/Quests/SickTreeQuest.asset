@@ -17,5 +17,5 @@ MonoBehaviour:
     quickly!
   questObjective: sick trees chopped
   questCurrentAmount: 0
-  questMaxAmount: 3
+  questMaxAmount: 5
   questID: 2

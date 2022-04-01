@@ -144,7 +144,7 @@ public class RobotArmController : MonoBehaviour
                 if (hitPointerPos > minRedZone && hitPointerPos < maxRedZone)
                 {
                     // In Red Zone
-                    amountOfHits = redZoneHitAmount;
+                    amountOfHits = 0;
                 }
 
                 if (hitPointerPos > minOrangeZone && hitPointerPos < maxOrangeZone)

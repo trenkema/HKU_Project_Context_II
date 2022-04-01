@@ -29,6 +29,8 @@ Ola Rosa, I’ve heard that there are a few residents that need help.
 Would you like to use my boat to see if you could help them?
 **[Of course mom! I’d love to discover and help the community!]
 Great! But remember to be back at 17:30 for dinner!
+***[Yes Mom!]
+And don't forget to regularly check your tablet with [TAB] for information!
 -> DONE
 
 = fallback
@@ -41,22 +43,25 @@ Goodbye!
 ~isTalking("forester")
 Hi there! What can I do for you?
 *[Can I help you with something?]
-    Oh yes! Thank you for asking. There are some sick trees in the forest that need to be chopped down quickly! I got an axe for you if you’d like to help.
-    ** [Sure, I would love to!]
+    Oh yes! Thank you for asking. There are some sick trees in the forest that need to be chopped down quickly!
+     **[Continue]
+    The sick trees are easily recognisable, they have no leaves and are pale.
+    ***[Continue]
+    I got an axe for you if you’d like to help, toggle your axe with [Q].
+    **** [Sure, I would love to!]
     Thank you so much!
     ~ startQuest(2)
     -> DONE
 +[Do you know anyone who I can help?]
     {
     - woodChopped: -> helpbuilder
-    - !talkedToFarmer: -> talktofarmer
-    - talkedToFarmer || woodChopped: -> dideverything
+    - !pumpedWater: -> talktofarmer
+    - pumpedWater || woodChopped: -> dideverything
     }
-* {woodChopped} [I placed the pillars you asked for!]
+* {woodChopped} [I chopped the trees you asked for!]
 Whew, those trees were on the verge of infecting all tress around!
 **[Continue]
 Thanks to you the forest is saved!
-~ completeQuest(2)
 -> DONE
 +[Goodbye]
 Bye!
@@ -87,19 +92,23 @@ Hi! How can I help you? -> options
     After the water level started rising, the population of foxes was split into two due to the water barrier. 
     ++[Continue]
     I’m building an Ecoduct for the fox populations on the two islands, so they can meet again.
-    ~ startQuest(0)
     +++[Continue]
     Is there anything else I can help you with? -> options
 +[Can I help with something?]
     Do you know where I can find some pillars?
-    ** {woodChopped && !placedPillars} [I’ve chopped some sick trees, I could place them for you if you want?]
+    ++ {woodChopped && !placedPillars} [I’ve chopped some sick trees, I could place them for you if you want?]
     I’d love that! The foxes and the community will be proud of you!
+        ~ startQuest(0)
     -> DONE
     ++ {!woodChopped} [I have no clue.]
     Oh. -> options
 * {placedPillars} [I placed the pillars you asked for!]
 I couldn't have done it without you!
-~ completeQuest(0)
+**[Continue]
+Can you help me vegetate the ecoduct? I have a drone you can use.
+***[Sounds fun! I'll do it!]
+Thank you!
+~ startQuest(1)
 -> DONE
 +[Goodbye!]
 Bye!
@@ -130,5 +139,4 @@ Oh, see you later then!
 -> DONE
 * {pumpedWater} [I've pumped all the water!]
 You did?! That's great news!
-~ completeQuest(3)
 -> DONE
