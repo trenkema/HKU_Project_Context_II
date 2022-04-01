@@ -5,9 +5,15 @@ using UnityEngine.InputSystem;
 
 public class RythmStart : MonoBehaviour
 {
+    [SerializeField] Quest quest;
+
+    [SerializeField] GameObject rythmCamera;
+
     [SerializeField] RythmMinigame rythmMinigame;
 
     [SerializeField] GameObject startPumpingText;
+
+    bool isQuestActive = false;
 
     bool isInTrigger = false;
     bool isPlaying = false;
@@ -15,11 +21,37 @@ public class RythmStart : MonoBehaviour
     bool pressedButtonStart = false;
     bool pressedButtonExit = false;
 
+    private void OnEnable()
+    {
+        EventSystemNew<Quest>.Subscribe(Event_Type.ACTIVATE_QUEST, QuestActive);
+    }
+
+    private void OnDisable()
+    {
+        EventSystemNew<Quest>.Unsubscribe(Event_Type.ACTIVATE_QUEST, QuestActive);
+    }
+
+    private void Start()
+    {
+        rythmCamera.SetActive(false);
+        startPumpingText.SetActive(false);
+    }
+
+    private void QuestActive(Quest _quest)
+    {
+        if (quest == _quest)
+        {
+            isQuestActive = true;
+        }
+    }
+
     public void StartMiniGame(InputAction.CallbackContext _context)
     {
         if (_context.phase == InputActionPhase.Started && isInTrigger & !pressedButtonExit && !isPlaying)
         {
             pressedButtonStart = true;
+
+            rythmCamera.SetActive(true);
 
             isPlaying = true;
 
@@ -35,25 +67,40 @@ public class RythmStart : MonoBehaviour
 
     public void ExitMiniGame(InputAction.CallbackContext _context)
     {
-            if (_context.phase == InputActionPhase.Started && !pressedButtonStart && isPlaying)
-            {
-                pressedButtonExit = true;
+        if (_context.phase == InputActionPhase.Started && !pressedButtonStart && isPlaying)
+        {
+            pressedButtonExit = true;
 
-                isPlaying = false;
+            rythmCamera.SetActive(false);
 
-                rythmMinigame.ExitGame();
+            isPlaying = false;
 
-                EventSystemNew<bool>.RaiseEvent(Event_Type.FREEZE_ACTIONS, false);
-            }
-            if (_context.phase == InputActionPhase.Canceled && pressedButtonExit)
-            {
-                pressedButtonExit = false;
-            }
+            rythmMinigame.ExitGame();
+
+            EventSystemNew<bool>.RaiseEvent(Event_Type.FREEZE_ACTIONS, false);
+        }
+        if (_context.phase == InputActionPhase.Canceled && pressedButtonExit)
+        {
+            pressedButtonExit = false;
+        }
+    }
+
+    public void MiniGameFinished()
+    {
+        rythmCamera.SetActive(false);
+
+        isPlaying = false;
+
+        rythmMinigame.ExitGame();
+
+        isQuestActive = false;
+
+        EventSystemNew<bool>.RaiseEvent(Event_Type.FREEZE_ACTIONS, false);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && isQuestActive)
         {
             isInTrigger = true;
         }
@@ -61,7 +108,7 @@ public class RythmStart : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player") && !isPlaying)
+        if (other.CompareTag("Player") && !isPlaying && isQuestActive)
         {
             startPumpingText.SetActive(true);
         }

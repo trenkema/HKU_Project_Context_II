@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1/4
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: fe3016b1e7e01ca479b21c60a3cec5b5, type: 2}
-  m_sharedMaterial: {fileID: -1484493262925972240, guid: fe3016b1e7e01ca479b21c60a3cec5b5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4e8d7a5c0f1073b4abf49f1c4cc506f7, type: 2}
+  m_sharedMaterial: {fileID: -5665395282297414248, guid: 4e8d7a5c0f1073b4abf49f1c4cc506f7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -201,8 +201,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Hit Pillars
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: fe3016b1e7e01ca479b21c60a3cec5b5, type: 2}
-  m_sharedMaterial: {fileID: -1484493262925972240, guid: fe3016b1e7e01ca479b21c60a3cec5b5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4e8d7a5c0f1073b4abf49f1c4cc506f7, type: 2}
+  m_sharedMaterial: {fileID: -5665395282297414248, guid: 4e8d7a5c0f1073b4abf49f1c4cc506f7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -490,8 +490,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Hit all pillars to make the Ecoduct!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: fe3016b1e7e01ca479b21c60a3cec5b5, type: 2}
-  m_sharedMaterial: {fileID: -1484493262925972240, guid: fe3016b1e7e01ca479b21c60a3cec5b5, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4e8d7a5c0f1073b4abf49f1c4cc506f7, type: 2}
+  m_sharedMaterial: {fileID: -5665395282297414248, guid: 4e8d7a5c0f1073b4abf49f1c4cc506f7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -515,7 +515,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
+  m_fontSize: 18.9
   m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 1

@@ -46,11 +46,31 @@ public class BasicInkExample : MonoBehaviour
     private void OnEnable()
     {
         EventSystemNew.Subscribe(Event_Type.TALK_TO_NPC, StartStoryFromNPC);
+        EventSystemNew<Quest>.Subscribe(Event_Type.QUEST_COMPLETED, QuestCompleted);
     }
 
     private void OnDisable()
     {
         EventSystemNew.Unsubscribe(Event_Type.TALK_TO_NPC, StartStoryFromNPC);
+        EventSystemNew<Quest>.Unsubscribe(Event_Type.QUEST_COMPLETED, QuestCompleted);
+    }
+
+    private void QuestCompleted(Quest quest)
+    {
+        switch (quest.questID)
+        {
+            case 0:
+                story.variablesState["placedPillars"] = true;
+                break;
+            case 1:
+                break;
+            case 2:
+                story.variablesState["woodChopped"] = true;
+                break;
+            case 3:
+                story.variablesState["pumpedWater"] = true;
+                break;
+        }
     }
 
     public void OnTriggerNPC(string npcName, Animator npcAnimator)

@@ -55,11 +55,11 @@ MonoBehaviour:
     m_Value: 1
   gaussianStart:
     m_OverrideState: 1
-    m_Value: 200
+    m_Value: 225
     min: 0
   gaussianEnd:
     m_OverrideState: 1
-    m_Value: 250
+    m_Value: 300
     min: 0
   gaussianMaxRadius:
     m_OverrideState: 1
@@ -68,7 +68,7 @@ MonoBehaviour:
     max: 1.5
   highQualitySampling:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   focusDistance:
     m_OverrideState: 1
     m_Value: 4.94
@@ -176,8 +176,8 @@ MonoBehaviour:
   - {fileID: 750336499142994109}
   - {fileID: -73029910520874079}
   - {fileID: -4382368970168949611}
-  - {fileID: -4230804134457588229}
   - {fileID: -843206488873918178}
+  - {fileID: -4230804134457588229}
 --- !u!114 &750336499142994109
 MonoBehaviour:
   m_ObjectHideFlags: 3

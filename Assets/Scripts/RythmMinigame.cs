@@ -8,6 +8,18 @@ using Cinemachine;
 public class RythmMinigame : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] Quest quest;
+
+    [SerializeField] RythmStart rythmStart;
+
+    [SerializeField] GameObject water;
+
+    [SerializeField] int maxLiters = 100;
+
+    [SerializeField] int minLitersPerPump, maxLitersPerPump;
+
+    [SerializeField] float waterMinHeight, waterMaxHeight;
+
     [SerializeField] Animator pumpAnimator;
 
     [SerializeField] Animator hudAnimator;
@@ -38,11 +50,15 @@ public class RythmMinigame : MonoBehaviour
 
     List<GameObject> spawnedButtons = new List<GameObject>();
 
+    public bool isCompleted { get; private set; }
+
     public bool spawnButtons = false;
 
     public bool isStarted = false;
 
     int litersPumped = 0;
+
+    float heightDifference;
 
     private void OnEnable()
     {
@@ -56,10 +72,16 @@ public class RythmMinigame : MonoBehaviour
 
     private void Start()
     {
+        isCompleted = false;
+
         foreach (var hudComponent in hudComponents)
         {
             hudComponent.SetActive(false);
         }
+
+        float heightDifferenceCalculated = Mathf.Max(waterMaxHeight, waterMinHeight) - Mathf.Min(waterMinHeight, waterMaxHeight);
+
+        heightDifference = heightDifferenceCalculated / maxLiters;
     }
 
     public void StartGame()
@@ -102,21 +124,25 @@ public class RythmMinigame : MonoBehaviour
             RythmButton nearestX = null;
             RythmButton nearestY = null;
 
-            Debug.Log("Hit Key: " + hitValue);
-
             switch (hitValue.x)
             {
                 case -1: // A Key
                     nearestX = CheckNearest(Vector2.left, 2);
 
                     if (nearestX == null)
+                    {
                         litersPumped--;
+                        water.transform.position += new Vector3(0f, heightDifference, 0f);
+                    }
                     break;
                 case 1: // D Key
                     nearestX = CheckNearest(Vector2.right, 3);
 
                     if (nearestX == null)
+                    {
                         litersPumped--;
+                        water.transform.position += new Vector3(0f, heightDifference, 0f);
+                    }
                     break;
             }
 
@@ -126,13 +152,19 @@ public class RythmMinigame : MonoBehaviour
 
                 if (nearestX.isInTrigger)
                 {
-                    litersPumped++;
+                    int randomLiters = Random.Range(minLitersPerPump, maxLitersPerPump);
+
+                    litersPumped += randomLiters;
+
+                    water.transform.position -= new Vector3(0f, heightDifference * randomLiters, 0f);
 
                     nearestX.SetRight();
                 }
                 else
                 {
                     litersPumped--;
+
+                    water.transform.position += new Vector3(0f, heightDifference, 0f);
 
                     nearestX.SetWrong();
                 }
@@ -144,13 +176,19 @@ public class RythmMinigame : MonoBehaviour
                     nearestY = CheckNearest(Vector2.up, 0);
 
                     if (nearestY == null)
+                    {
                         litersPumped--;
+                        water.transform.position += new Vector3(0f, heightDifference, 0f);
+                    }
                     break;
                 case -1: // S Key
                     nearestY = CheckNearest(Vector2.down, 1);
 
                     if (nearestY == null)
+                    {
                         litersPumped--;
+                        water.transform.position += new Vector3(0f, heightDifference, 0f);
+                    }
                     break;
             }
 
@@ -160,7 +198,11 @@ public class RythmMinigame : MonoBehaviour
 
                 if (nearestY.isInTrigger)
                 {
-                    litersPumped++;
+                    int randomLiters = Random.Range(minLitersPerPump, maxLitersPerPump);
+
+                    litersPumped += randomLiters;
+
+                    water.transform.position -= new Vector3(0f, heightDifference * randomLiters, 0f);
 
                     nearestY.SetRight();
                 }
@@ -168,11 +210,24 @@ public class RythmMinigame : MonoBehaviour
                 {
                     litersPumped--;
 
+                    water.transform.position += new Vector3(0f, heightDifference, 0f);
+
                     nearestY.SetWrong();
                 }
             }
 
-            litersPumped = Mathf.Clamp(litersPumped, 0, 100);
+            water.transform.position = new Vector3(water.transform.position.x, Mathf.Clamp(water.transform.position.y, waterMinHeight, waterMaxHeight), water.transform.position.z);
+
+            if (litersPumped >= maxLiters)
+            {
+                isCompleted = true;
+
+                rythmStart.MiniGameFinished();
+
+                EventSystemNew<Quest>.RaiseEvent(Event_Type.QUEST_COMPLETED, quest);
+            }
+
+            litersPumped = Mathf.Clamp(litersPumped, 0, maxLiters);
 
             litersPumpedText.text = string.Format("Pumped: {0} L", litersPumped);
         }
