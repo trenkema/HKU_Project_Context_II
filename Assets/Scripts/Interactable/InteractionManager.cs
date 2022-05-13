@@ -8,12 +8,10 @@ public class InteractionManager : MonoBehaviour
 {
     [SerializeField] Transform pickupHolder;
 
-    [SerializeField] private float checkRate = 0.05f;
     [SerializeField] private float maxCheckDistance;
     [SerializeField] private LayerMask layerMask;
-    private float lastCheckTime;
 
-    private GameObject curInteractGameObject;
+    //private GameObject curInteractGameObject;
     private IInteractable curInteractable;
 
     private GameObject curPickedupInteractGameObject;
@@ -26,76 +24,6 @@ public class InteractionManager : MonoBehaviour
     [SerializeField] Camera playerCamera;
 
     private bool isHolding = false;
-
-    private void Update()
-    {
-        //if (Time.time - lastCheckTime > checkRate)
-        //{
-        //    lastCheckTime = Time.time;
-
-        //    Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
-        //    RaycastHit hit;
-
-        //    if (Physics.Raycast(ray, out hit, maxCheckDistance, layerMask, QueryTriggerInteraction.Ignore))
-        //    {
-        //        if (hit.collider.gameObject != curInteractGameObject && hit.collider.gameObject != curPickedupInteractGameObject)
-        //        {
-        //            curInteractGameObject = hit.collider.gameObject;
-        //            curInteractable = hit.collider.GetComponentInParent<IInteractable>();
-
-        //            promptPickupText.gameObject.SetActive(false);
-        //            promptControlText.gameObject.SetActive(false);
-        //            promptEnterText.gameObject.SetActive(false);
-
-        //            SetPromptText();
-        //        }
-        //    }
-        //    else
-        //    {
-        //        curInteractGameObject = null;
-        //        curInteractable = null;
-
-        //        promptPickupText.gameObject.SetActive(false);
-        //        promptControlText.gameObject.SetActive(false);
-        //        promptEnterText.gameObject.SetActive(false);
-        //    }
-        //}
-    }
-
-    private void SetPromptText()
-    {
-        foreach (var interactable in curInteractable.interactableTypeSelector)
-        {
-            switch (interactable.interactableTypes)
-            {
-                case InteractableTypes.Pickupable:
-                    if (curInteractable.GetInteractPrompt(InteractableTypes.Pickupable, "") != null)
-                    {
-                        promptPickupText.gameObject.SetActive(true);
-                        promptPickupText.text = string.Format("<b>[E]</b> {0}", curInteractable.GetInteractPrompt(InteractableTypes.Pickupable, interactable.interactableName));
-                    }
-
-                    break;
-                case InteractableTypes.Controlable:
-                    if (curInteractable.GetInteractPrompt(InteractableTypes.Controlable, "") != null)
-                    {
-                        promptControlText.gameObject.SetActive(true);
-                        promptControlText.text = string.Format("<b>[Q]</b> {0}", curInteractable.GetInteractPrompt(InteractableTypes.Controlable, interactable.interactableName));
-                    }
-
-                    break;
-                case InteractableTypes.Enterable:
-                    if (curInteractable.GetInteractPrompt(InteractableTypes.Enterable, "") != null)
-                    {
-                        promptEnterText.gameObject.SetActive(true);
-                        promptEnterText.text = string.Format("<b>[E]</b> {0}", curInteractable.GetInteractPrompt(InteractableTypes.Enterable, interactable.interactableName));
-                    }
-
-                    break;
-            }
-
-        }
-    }
 
     public void OnPickupInput(InputAction.CallbackContext context)
     {

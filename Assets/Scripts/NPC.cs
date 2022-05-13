@@ -8,15 +8,13 @@ using StarterAssets;
 
 public class NPC : MonoBehaviour
 {
+    public BasicInkExample inkManager;
+
     [SerializeField] Animator animator;
 
     [SerializeField] ThirdPersonController playerController;
 
-    [SerializeField] float waitDelay = 0.15f;
-
     [SerializeField] CinemachineVirtualCamera playerCamera;
-
-    //[SerializeField] CinemachineVirtualCamera npcZoomCamera;
 
     [SerializeField] Transform playerLookAt;
 
@@ -28,19 +26,17 @@ public class NPC : MonoBehaviour
 
     [SerializeField] GameObject talkText;
 
-    public BasicInkExample inkManager;
-
-    bool playerInTrigger = false;
-
-    bool hasTalked = false;
-    bool zoom = false;
-
     [SerializeField] float switchSpeed = 5f;
 
     [SerializeField] Transform player;
 
     [SerializeField] Transform lookAtPlayerParent;
     [SerializeField] Transform lookAtNPCParent;
+
+    bool playerInTrigger = false;
+
+    bool hasTalked = false;
+    bool zoom = false;
 
     private void Start()
     {
@@ -75,9 +71,6 @@ public class NPC : MonoBehaviour
     {
         if (other.CompareTag("Player") && !inkManager.npcTalking)
         {
-            //npcZoomCamera.LookAt = focusRootTransform;
-            //npcZoomCamera.Priority = playerCamera.Priority + 1;
-
             talkText.SetActive(true);
 
             inkManager.OnTriggerNPC(npc.npcName, animator);
@@ -109,8 +102,6 @@ public class NPC : MonoBehaviour
             hasTalked = false;
 
             talkText.SetActive(true);
-
-            //npcZoomCamera.Priority = playerCamera.Priority - 1;
         }
     }
 
@@ -118,8 +109,6 @@ public class NPC : MonoBehaviour
     {
         if (other.CompareTag("Player") && !inkManager.npcTalking && !hasTalked)
         {
-            //npcZoomCamera.Priority = playerCamera.Priority - 1;
-
             inkManager.npcTalking = false;
 
             talkText.SetActive(false);

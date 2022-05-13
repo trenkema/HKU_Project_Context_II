@@ -259,7 +259,6 @@ public class BasicInkExample : MonoBehaviour
             {
                 npcName.text = npc.npcName;
                 hasFoundName = true;
-                Debug.Log(name + " is talking");
             }
         }
         if (hasFoundName == false)

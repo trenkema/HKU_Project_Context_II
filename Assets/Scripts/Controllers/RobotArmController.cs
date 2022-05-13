@@ -123,8 +123,6 @@ public class RobotArmController : MonoBehaviour
         {
             newYRotation += rotateSpeed * curRotateInput.x * Time.fixedDeltaTime;
 
-            Debug.Log("New Rotation: " + newYRotation);
-
             newYRotation = Mathf.Clamp(newYRotation, minYRotation, maxYRotation);
 
             transform.localEulerAngles = Vector3.Lerp(transform.localEulerAngles, new Vector3(transform.localEulerAngles.x, newYRotation, transform.localEulerAngles.z), Time.fixedDeltaTime * rotateDamping);
@@ -144,7 +142,7 @@ public class RobotArmController : MonoBehaviour
                 if (hitPointerPos > minRedZone && hitPointerPos < maxRedZone)
                 {
                     // In Red Zone
-                    amountOfHits = 0;
+                    amountOfHits = redZoneHitAmount;
                 }
 
                 if (hitPointerPos > minOrangeZone && hitPointerPos < maxOrangeZone)

@@ -42,7 +42,6 @@ public class BoatController : MonoBehaviour //: IInteractable
     [SerializeField] float slowDownTime = 2f;
     [SerializeField] float maxVelocity = 5f;
     [SerializeField] float steerSpeed = 5f;
-    [SerializeField] float steerSpeedWhenStopped = 5f;
     [SerializeField] float steerDamping = 5f;
 
     Vector3 forwardVelocity = Vector3.zero;
@@ -234,8 +233,6 @@ public class BoatController : MonoBehaviour //: IInteractable
                 {
                     playerControlPoint.position = player.transform.position;
                     playerControlPoint.rotation = player.transform.rotation;
-
-                    Debug.Log("Transform: " + player.transform.position);
 
                     playerController.enabled = false;
                     player.GetComponent<ThirdPersonController>().canMove = false;

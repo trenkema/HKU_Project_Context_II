@@ -16,6 +16,18 @@ public class Pilar : MonoBehaviour
 
     float amountOfHits = 0;
 
+    bool canHit = false;
+
+    private void OnEnable()
+    {
+        EventSystemNew<Quest>.Subscribe(Event_Type.ACTIVATE_QUEST, CanHit);
+    }
+
+    private void OnDisable()
+    {
+        EventSystemNew<Quest>.Unsubscribe(Event_Type.ACTIVATE_QUEST, CanHit);
+    }
+
     private void Awake()
     {
         material = GetComponent<MeshRenderer>().material;
@@ -23,21 +35,32 @@ public class Pilar : MonoBehaviour
         ColorFromGradient(0f);
     }
 
+    private void CanHit(Quest _quest)
+    {
+        if (quest == _quest)
+        {
+            canHit = true;
+        }
+    }
+
     public void Hit(float _amount)
     {
-        amountOfHits += _amount;
-
-        float gradient =  amountOfHits / hitsRequired;
-
-        ColorFromGradient(gradient);
-
-        if (amountOfHits >= hitsRequired)
+        if (canHit)
         {
-            buildPilar.SetActive(true);
+            amountOfHits += _amount;
 
-            EventSystemNew<Quest, int>.RaiseEvent(Event_Type.QUEST_ADD_AMOUNT, quest, 1);
+            float gradient = amountOfHits / hitsRequired;
 
-            gameObject.SetActive(false);
+            ColorFromGradient(gradient);
+
+            if (amountOfHits >= hitsRequired)
+            {
+                buildPilar.SetActive(true);
+
+                EventSystemNew<Quest, int>.RaiseEvent(Event_Type.QUEST_ADD_AMOUNT, quest, 1);
+
+                gameObject.SetActive(false);
+            }
         }
     }
 
